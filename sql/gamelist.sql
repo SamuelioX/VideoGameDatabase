@@ -1,0 +1,52 @@
+/**INSERT INTO video_game_info (name, developer, publisher, rating, players, coop, ESRBrating) 
+	VALUES ("Mega Man X2", "Capcom", "Capcom", 10.0, 2, 0, 'E');
+    */
+    /**
+    INSERT INTO game_system (game_id, system_id)
+    VALUES (1, 1); */
+    /**
+INSERT INTO system_info (name, year, publisher)
+	VALUES ("PS2", "2000", "Sony");*/
+ /**INSERT INTO game_system (game_id, system_id)
+    VALUES (1, 2);*/
+    /**
+    INSERT INTO system_info (name, year, publisher)
+	VALUES ("Gamecube", "2001", "Nintendo");*/
+    /**
+    INSERT INTO game_system (game_id, system_id)
+    VALUES (2, 3);
+    INSERT INTO game_system (game_id, system_id)
+    VAL UES (2, 2);*/
+
+    
+SELECT video_game_info.*, group_concat(system_info.name) AS 'System Name', system_info.id AS 'System ID' FROM video_game_info
+	INNER JOIN game_system on video_game_info.id = game_system.game_id 
+    INNER JOIN system_info on system_info.id = game_system.system_id
+    GROUP BY video_game_info.id;
+    
+    /**
+SELECT * FROM game_system;
+
+SELECT system_info.name FROM game_system
+	LEFT JOIN system_info ON system_info.id = game_system.system_id;
+    
+SELECT * FROM system_info;
+
+SELECT * FROM video_game_info;*/
+
+SELECT * FROM video_game_info;
+
+SELECT video_game_info.*, group_concat(system_info.name) AS 'System Name', system_info.id AS 'System ID' FROM video_game_info
+	INNER JOIN game_system on video_game_info.id = game_system.game_id 
+    
+    INNER JOIN system_info on system_info.id = game_system.system_id
+    WHERE video_game_info.id = 1
+    GROUP BY video_game_info.id;
+
+/**
+INSERT INTO user (user_type, username, email, hashed_password) 
+	VALUES (4, "admin", "admin@videogamedb.com", "password");*/
+    
+SELECT * FROM user;
+SELECT * FROM status_type;
+
