@@ -12,13 +12,13 @@ var router = express.Router();
 
 router.get('/', function (req, res) {
     var userId = 1;
-    getCompleteUserReview(userId, function (data) {
+    getAllUserReviews(userId, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
     });
 });
 
-function getCompleteUserReview(userId, callback) {
+function getAllUserReviews(userId, callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data
@@ -26,7 +26,8 @@ function getCompleteUserReview(userId, callback) {
     //table concats system type by '
     var userQuery = "SELECT user.username, review.review_text, review.review_score, video_game_info.name FROM review " +
             "INNER JOIN video_game_info ON video_game_info.id = review.game_id " +
-            "INNER JOIN user ON review.user_id = user.id " + userId + ";";
+            "INNER JOIN user ON review.user_id = user.id " +
+            "WHERE user.id = " + userId + ";";
 //    var userQuery = "SELECT * FROM video_game_info";
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {

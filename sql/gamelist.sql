@@ -50,3 +50,24 @@ INSERT INTO user (user_type, username, email, hashed_password)
 SELECT * FROM user;
 SELECT * FROM status_type;
 
+/**
+INSERT INTO user (user_type, username, email, hashed_password) 
+	VALUES (3, "samueliox", "samueliox@videogamedb.com", "password");*/
+/**
+SELECT user.username, review.review_text, review.review_score, video_game_info.name FROM review
+            INNER JOIN video_game_info ON video_game_info.id = review.game_id 
+            INNER JOIN user ON review.user_id = user.id; */
+            /**
+INSERT INTO review(user_id, game_id, review_text, review_score)
+	VALUES (1, 1, "game is okay", 10);*/
+    
+SELECT user.username, review.review_text, review.review_score, video_game_info.name FROM review
+            INNER JOIN video_game_info ON video_game_info.id = review.game_id 
+            INNER JOIN user ON review.user_id = user.id
+            WHERE video_game_info.id = 1;
+
+SELECT Count(*) FROM videogame.review
+	WHERE game_id = 1;
+    
+SELECT SUM(review.review_score) FROM review
+	WHERE game_id = 1;

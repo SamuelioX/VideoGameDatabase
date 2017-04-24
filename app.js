@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/getGameList', require('./routes/getGameList'));
 app.use('/getGameInfo', require('./routes/getGameInfo'));
-
+app.use('/getUserList', require('./routes/getUserList'));
 
 
 app.use('/', index);
