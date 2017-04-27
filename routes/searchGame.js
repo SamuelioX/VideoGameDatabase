@@ -11,14 +11,14 @@ var db = require('../db');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    var searchName = "Mega Man X2";
-    getGameList(searchName, function (data) {
+    var searchName = req.query.gamename;
+    searchGame(searchName, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
     });
 });
 
-function getGameList(searchName, callback) {
+function searchGame(searchName, callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data

@@ -11,14 +11,14 @@ var db = require('../db');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    var gameId = 1;
-    getGameList(gameId, function (data) {
+    var gameId = req.query.gameId;
+    getGameInfo(gameId, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
     });
 });
 
-function getGameList(gameId, callback) {
+function getGameInfo(gameId, callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data

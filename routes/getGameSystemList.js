@@ -11,27 +11,24 @@ var db = require('../db');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    var gameId = req.query.gameId;
-    getAllUserReviews(gameId, function (data) {
+    getGameSystemsList(function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
     });
 });
 
-function getAllUserReviews(gameId, callback) {
+function getGameSystemsList(callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data
 
     //table concats system type by '
-    var userQuery = "SELECT user.username, review.review_text, review.review_score, video_game_info.name FROM review " +
-            "INNER JOIN video_game_info ON video_game_info.id = review.game_id " +
-            "INNER JOIN user ON review.user_id = user.id" +
-            "WHERE video_game_info.id = " + gameId + ";";
-    var ratingSumQuery = "SELECT SUM(review.review_score) FROM review" +
-	"WHERE game_id = " + gameId + ";";
-    var ratingCountQuery = "SELECT Count(*) FROM videogame.review " +
-            "WHERE game_id = " + gameId + ";";
+    var userQuery = "SELECT video_game_info.name, video_game_info.developer, " +
+            "video_game_info.rating, video_game_info.year, " +
+            "group_concat(system_info.name) AS 'system' FROM video_game_info " +
+            "INNER JOIN game_system on video_game_info.id = game_system.game_id " +
+            "INNER JOIN system_info on system_info.id = game_system.system_id " +
+            "GROUP BY video_game_info.id;";
 //    var userQuery = "SELECT * FROM video_game_info";
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {
@@ -40,6 +37,12 @@ function getAllUserReviews(gameId, callback) {
             callback({"success": false, "message": "something went wrong in the db."});
             return;
         }
+        rows.forEach(function (row) {
+            row.system_list = row.system.toString().split(',').map(function (value) {
+                return {system: String(value)};
+            });
+            delete row.system;
+        });
         db.get().end();
         callback(rows);
 
