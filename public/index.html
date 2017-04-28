@@ -28,17 +28,20 @@
             var searchApp = angular.module("searchApp", []);
             searchApp.controller("searchCtrl", function ($scope, $http) {
                 var name = $scope.gamename;
-                $http.get("")
-                $scope.findValue = function(gamename){
-                    
+                
+                $scope.findValue = function (name) {
+                    $http.get("http://ip.jsontest.com/").then(function (response) {
+                    $scope.myWelcome = response.data.ip;
+                });
                 };
             });
         </script>
-        
+           
         <div ng-app="searchApp" ng-controller="searchCtrl">
             <input ng-model="gamename">
             <br>
             <button type="button" ng-Click="findValue(gamename)">Search</button>
+            <h1>{{myWelcome}}</h1>
         </div>
         
         <div ng-app="myShoppingList" ng-controller="myCtrl">
