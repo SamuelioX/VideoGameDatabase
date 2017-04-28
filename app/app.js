@@ -5,8 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+//var index = require('./routes/index');
+//var users = require('./routes/users');
 
 var app = express();
 
@@ -15,13 +15,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join('./public/images', 'favicon.ico')));
+app.use(favicon('./public/images/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(require('less-middleware')(path.join('../', 'public')));
-app.use(express.static(path.join('../', 'public')));
+app.use(require('less-middleware')('./public'));
+app.use(express.static('./public'));
 
 app.use('/getGameList', require('./routes/getGameList'));
 app.use('/getGameInfo', require('./routes/getGameInfo'));
@@ -32,8 +32,8 @@ app.use('/getAllUserReviews', require('./routes/getAllUserReviews'));
 app.use('/getGameSystemList', require('./routes/getGameSystemList'));
 
 
-app.use('/', index);
-app.use('/users', users);
+//app.use('/', index);
+//app.use('/users', users);
 console.log('Node is installed');
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
