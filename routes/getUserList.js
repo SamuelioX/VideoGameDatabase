@@ -23,7 +23,7 @@ function getUserList(callback) {
     // # get user data
 
     //table concats system type by '
-    var userQuery = "SELECT * FROM user;";
+    var userQuery = "SELECT name FROM user;";
     
     db.get().query(userQuery, function (err, rows) {
         if (err) {
@@ -31,12 +31,6 @@ function getUserList(callback) {
             callback({"success": false, "message": "something went wrong in the db."});
             return;
         }
-//        rows.forEach(function (row) {
-//            row.system_list = row.system.toString().split(',').map(function (value) {
-//                return {system: String(value)};
-//            });
-//            delete row.system;
-//        });
         db.get().end();
         callback(rows);
 

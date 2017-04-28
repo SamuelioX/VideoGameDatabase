@@ -18,12 +18,12 @@ INSERT INTO system_info (name, year, publisher)
     INSERT INTO game_system (game_id, system_id)
     VAL UES (2, 2);*/
 
-    
+    /**
 SELECT video_game_info.*, group_concat(system_info.name) AS 'System Name', system_info.id AS 'System ID' FROM video_game_info
 	INNER JOIN game_system on video_game_info.id = game_system.game_id 
     INNER JOIN system_info on system_info.id = game_system.system_id
     GROUP BY video_game_info.id;
-    
+    */
     /**
 SELECT * FROM game_system;
 
@@ -31,9 +31,9 @@ SELECT system_info.name FROM game_system
 	LEFT JOIN system_info ON system_info.id = game_system.system_id;
     
 SELECT * FROM system_info;
-
-SELECT * FROM video_game_info;*/
-
+*/
+SELECT * FROM video_game_info;
+/**
 SELECT * FROM video_game_info;
 
 SELECT video_game_info.*, group_concat(system_info.name) AS 'System Name', system_info.id AS 'System ID' FROM video_game_info
@@ -42,11 +42,21 @@ SELECT video_game_info.*, group_concat(system_info.name) AS 'System Name', syste
     INNER JOIN system_info on system_info.id = game_system.system_id
     WHERE video_game_info.id = 1
     GROUP BY video_game_info.id;
-
+*/
 /**
 INSERT INTO user (user_type, username, email, hashed_password) 
 	VALUES (4, "admin", "admin@videogamedb.com", "password");*/
-    
+    /**
 SELECT * FROM user;
 SELECT * FROM status_type;
-
+SELECT user.username, review.review_text, review.review_score, video_game_info.name FROM review 
+	INNER JOIN video_game_info ON video_game_info.id = review.game_id
+    INNER JOIN user ON review.user_id = user.id
+    WHERE user_id = 1;
+    */
+    /**
+INSERT INTO video_game_info (name, developer, publisher, rating, players, coop, ESRBrating) 
+	VALUES ("Mega Man", "Capcom", "Capcom", 8.0, 2, 0, 'E');*/
+/**DELETE FROM video_game_info WHERE name = "Mega Man" limit 1;*/
+SELECT video_game_info.name FROM video_game_info 
+	WHERE video_game_info.name LIKE '%Mega Man X%';

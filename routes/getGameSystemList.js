@@ -11,23 +11,23 @@ var db = require('../db');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    var gameId = req.query.gameId;
-    getGameInfo(gameId, function (data) {
+    getGameSystemsList(function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
     });
 });
 
-function getGameInfo(gameId, callback) {
+function getGameSystemsList(callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data
 
     //table concats system type by '
-    var userQuery = "SELECT video_game_info.*, group_concat(system_info.name) AS 'system' FROM video_game_info " +
+    var userQuery = "SELECT video_game_info.name, video_game_info.developer, " +
+            "video_game_info.rating, video_game_info.year, " +
+            "group_concat(system_info.name) AS 'system' FROM video_game_info " +
             "INNER JOIN game_system on video_game_info.id = game_system.game_id " +
             "INNER JOIN system_info on system_info.id = game_system.system_id " +
-            "WHERE video_game_info.id = " + gameId + " " + 
             "GROUP BY video_game_info.id;";
 //    var userQuery = "SELECT * FROM video_game_info";
     // Get database connection and run query
