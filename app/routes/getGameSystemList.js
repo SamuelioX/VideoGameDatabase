@@ -26,8 +26,8 @@ function getGameSystemsList(callback) {
     var userQuery = "SELECT video_game_info.name, video_game_info.developer, " +
             "video_game_info.rating, video_game_info.year, " +
             "group_concat(system_info.name) AS 'system' FROM video_game_info " +
-            "INNER JOIN game_system on video_game_info.id = game_system.game_id " +
-            "INNER JOIN system_info on system_info.id = game_system.system_id " +
+            "LEFT JOIN game_system on video_game_info.id = game_system.game_id " +
+            "LEFT JOIN system_info on system_info.id = game_system.system_id " +
             "GROUP BY video_game_info.id;";
 //    var userQuery = "SELECT * FROM video_game_info";
     // Get database connection and run query
@@ -38,9 +38,13 @@ function getGameSystemsList(callback) {
             return;
         }
         rows.forEach(function (row) {
-            row.system_list = row.system.toString().split(',').map(function (value) {
-                return {system: String(value)};
-            });
+            if (row.system !== null) {
+                row.system_list = row.system.toString().split(',').map(function (value) {
+                    return {system: String(value)};
+                });
+            } else {
+                row.system_list = [];
+            }
             delete row.system;
         });
         db.get().end();
