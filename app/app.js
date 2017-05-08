@@ -31,7 +31,6 @@ app.use('/getAllGameReviews', require('./routes/getAllGameReviews'));
 app.use('/getAllUserReviews', require('./routes/getAllUserReviews'));
 app.use('/getGameSystemList', require('./routes/getGameSystemList'));
 
-
 //app.use('/', index);
 //app.use('/users', users);
 console.log('Node is installed');

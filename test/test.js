@@ -5,6 +5,7 @@ var expect = chai.expect;
 var supertest = require("supertest");
 var server = supertest.agent("http://localhost:3000");
 
+
 //test to see if unit testing works
 describe('Array', function () {
     it('should start empty', function () {
@@ -29,8 +30,8 @@ describe("Test Game List", function () {
 
 describe("Test Search Game", function () {
     it('this should search for mega man', function (done) {
-        server.post('/searchGame')
-                .send({gamename: 'Mega Man'})
+        server.get('/searchGame')
+                .query({gamename: "Mega Man"})
                 .end(function (err, res) {
                     assert.equal("Mega Man", res.body[0].name);
                     done(err);

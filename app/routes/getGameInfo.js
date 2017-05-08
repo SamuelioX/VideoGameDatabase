@@ -25,8 +25,8 @@ function getGameInfo(gameId, callback) {
 
     //table concats system type by '
     var userQuery = "SELECT video_game_info.*, group_concat(system_info.name) AS 'system' FROM video_game_info " +
-            "INNER JOIN game_system on video_game_info.id = game_system.game_id " +
-            "INNER JOIN system_info on system_info.id = game_system.system_id " +
+            "LEFT JOIN game_system on video_game_info.id = game_system.game_id " +
+            "LEFT JOIN system_info on system_info.id = game_system.system_id " +
             "WHERE video_game_info.id = " + gameId + " " + 
             "GROUP BY video_game_info.id;";
 //    var userQuery = "SELECT * FROM video_game_info";
