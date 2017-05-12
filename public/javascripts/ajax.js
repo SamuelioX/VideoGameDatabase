@@ -6,9 +6,6 @@ searchApp.controller("searchCtrl", function ($scope, $http) {
         $http.get("https://jsonplaceholder.typicode.com/comments").then(function (response) {
             $scope.response = response.data;
             $scope.myWelcome = response;
-//                        for(var i = 0; i < response.data.length; i++){
-//                            $scope.myWelcome += + response.data[i].email;
-//                        }
         });
     };
 });

@@ -23,7 +23,7 @@ function getUserList(callback) {
     // # get user data
 
     //table concats system type by '
-    var userQuery = "SELECT name FROM user;";
+    var userQuery = "SELECT username FROM user;";
     
     db.get().query(userQuery, function (err, rows) {
         if (err) {
