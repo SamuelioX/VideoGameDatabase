@@ -4,126 +4,19 @@
     <link rel="stylesheet" href="/w3css/3/w3.css">
     <body>
         <script src="/javascripts/searchGame.js"></script>
-        <script>
-            var app = angular.module("myShoppingList", []);
-            app.controller("myCtrl", function ($scope) {
-                $scope.products = ["Milk", "Bread", "Cheese"];
-                $scope.addItem = function () {
-                    $scope.errortext = "";
-                    if (!$scope.addMe) {
-                        return;
-                    }
-                    if ($scope.products.indexOf($scope.addMe) == -1) {
-                        $scope.products.push($scope.addMe);
-                    } else {
-                        $scope.errortext = "The item is already in your shopping list.";
-                    }
-                }
-                $scope.removeItem = function (x) {
-                    $scope.errortext = "";
-                    $scope.products.splice(x, 1);
-                }
-            });
-        </script>
-
+        
         <div ng-app="searchApp" ng-controller="searchCtrl">
-            <input ng-model="gamename">
+            
+            <!--<input type="number" ng-model="test" ng-keyup="test = test + 1"> key up count: {{test}}-->
+            <input ng-model="gamename" ng-keyup="searchGame(gamename)">
             <br>
-            <button type="button" ng-Click="findValue(gamename)">Search</button>
+            <!--<button type="button" ng-Click="searchGame(gamename)">Search</button>-->
             <!--{{myWelcome}}-->
             <!--{{response}}-->
             <div ng-repeat="r in response">
-                {{r.name}}
+                {{r.name}} {{r.id}}
+                <a ng-href="http://localhost:3000/getGameInfo={{r.name}}">link1</a>
             </div>
         </div>
-
-        <div ng-app="myShoppingList" ng-controller="myCtrl">
-            <ul>
-                <li ng-repeat="x in products">
-                    {{x}}
-                    <span ng-click="removeItem($index)">&times;</span>
-                </li>
-            </ul>
-            <input ng-model="addMe">
-            <button ng-click="addItem()">Add</button>
-            <p>{{errortext}}</p>
-        </div>
-
     </body>
 </html>
-
-
-<!--<!DOCTYPE html>-->
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-
-<!--
-<!DOCTYPE html>
-<html>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <body>
-
-        <script>
-            var app = angular.module("myShoppingList", []);
-            app.controller("myCtrl", function ($scope) {
-                $scope.products = ["Milk", "Bread", "Cheese"];
-                $scope.addItem = function () {
-                    $scope.errortext = "";
-                    if (!$scope.addMe) {
-                        return;
-                    }
-                    if ($scope.products.indexOf($scope.addMe) == -1) {
-                        $scope.products.push($scope.addMe);
-                    } else {
-                        $scope.errortext = "The item is already in your shopping list.";
-                    }
-                };
-                $scope.removeItem = function (x) {
-                    $scope.errortext = "";
-                    $scope.products.splice(x, 1);
-                };
-            });
-        </script>
-
-        <div ng-app="myShoppingList" ng-cloak ng-controller="myCtrl" class="w3-card-2 w3-margin" style="max-width:400px;">
-            <header class="w3-container w3-light-grey w3-padding-16">
-                <h3>My Shopping List</h3>
-            </header>
-            <ul class="w3-ul">
-                <li ng-repeat="x in products" class="w3-padding-16">{{x}}<span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">Ã—</span></li>
-            </ul>
-            <div class="w3-container w3-light-grey w3-padding-16">
-                <div class="w3-row w3-margin-top">
-                    <div class="w3-col s10">
-                        <input placeholder="Add shopping items here" ng-model="addMe" class="w3-input w3-border w3-padding">
-                    </div>
-                    <div class="w3-col s2">
-                        <button ng-click="addItem()" class="w3-btn w3-padding w3-green">Add</button>
-                    </div>
-                </div>
-                <p class="w3-padding-left w3-text-red">{{errortext}}</p>
-            </div>
-        </div>
-
-
-        <form action="#" method ="post" name="submit_game" id="submit_game_id">
-            <input ng-model="game_name">
-            <label for="game_name">Game Name:</label>
-            <input type="text" name="game_name" required><br>
-            <label for="developer">Developer*:</label>
-            <input type="text" name="developer" required><br>
-            <label for="publisher">Publisher*:</label>
-            <input type="text" name="publisher" required><br>
-            <label for="boxart">BoxArt*:</label>
-            <input type="file" name="boxart" class="inputFile"><br>
-            <input type="button" name="submit_event" value="Submit New Event">
-        </form>
-
-        <p>So far we have made an HTML list based on the items of an array.</p>
-
-    </body>
-</html>-->

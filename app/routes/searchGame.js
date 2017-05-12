@@ -7,6 +7,7 @@ var express = require('express');
 
 // Get database access
 var db = require('../db');
+var mysql = require('mysql');
 
 var router = express.Router();
 
@@ -24,8 +25,8 @@ function searchGame(searchName, callback) {
     // # get user data
 
     //table concats system type by '
-    var userQuery = "SELECT video_game_info.name FROM video_game_info " +
-	"WHERE video_game_info.name LIKE '%" + searchName + "%';";
+    var userQuery = "SELECT video_game_info.name, video_game_info.id " +
+            "FROM video_game_info WHERE video_game_info.name LIKE " + mysql.escape('%' + searchName + '%') + ";";
 //    var userQuery = "SELECT * FROM video_game_info";
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {
