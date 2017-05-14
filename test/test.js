@@ -28,6 +28,19 @@ describe("Test Game List", function () {
     });
 });
 
+describe("Test Game Info", function () {
+    it('testing if game info can be retreived', function (done) {
+        server.get('/getGameInfo')
+                .expect(200)
+                .query({gameId: 1})
+                .end(function (err, res) {
+//                    expect(res.body).to.have.lengthOf(1);
+                    assert.equal("Mega Man X2", res.body[0].name);
+                    done(err);
+                });
+    });
+});
+
 describe("Test Search Game", function () {
     it('this should search for mega man', function (done) {
         server.get('/searchGame')

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <link rel="stylesheet" href="/w3css/3/w3.css">
+    <body>
+        <script src="/javascripts/detailedPage.js"></script>
+        <div ng-app="detailedApp" ng-controller="detailedCtrl">
+            <div ng-model="data" ng-init="detailedPage()">
+                <!--                {{data}}-->
+                <!--<button type="button" ng-Click="detailedPage()">Search</button>-->
+                {{response}}
+            </div>
+        </div>
+        <!--        <div ng-app="searchApp" ng-controller="searchCtrl">
+                    
+                    <input ng-model="gamename" ng-keyup="searchGame(gamename)">
+                    <input type="number" ng-model="test" ng-keyup="test = test + 1"> key up count: {{test}}
+                    <br>
+                    <button type="button" ng-Click="searchGame(gamename)">Search</button>
+                    {{myWelcome}}
+                    {{response}}
+                    <div ng-repeat="r in response">
+                        {{r.name}}
+                    </div>
+                </div>-->
+    </body>
+</html>

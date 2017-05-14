@@ -32,7 +32,7 @@ SELECT system_info.name FROM game_system
     
 SELECT * FROM system_info;
 */
-
+/**
 SELECT video_game_info.*, group_concat(system_info.name) AS 'System Name', system_info.id AS 'System ID' FROM video_game_info
 	INNER JOIN game_system on video_game_info.id = game_system.game_id 
     INNER JOIN system_info on system_info.id = game_system.system_id
@@ -41,14 +41,16 @@ SELECT video_game_info.*, group_concat(system_info.name) AS 'System Name', syste
 	LEFT JOIN game_system on video_game_info.id = game_system.game_id 
     LEFT JOIN system_info on system_info.id = game_system.system_id
     GROUP BY video_game_info.id;
+    */
 /**
 SELECT video_game_info.*, group_concat(system_info.name) AS 'System Name', system_info.id AS 'System ID' FROM video_game_info
 	INNER JOIN game_system on video_game_info.id = game_system.game_id 
     
     INNER JOIN system_info on system_info.id = game_system.system_id
     WHERE video_game_info.id = 1
-    GROUP BY video_game_info.id;
-    */
+    GROUP BY video_game_info.id;*/
+    
+SELECT * FROM video_game_info WHERE id = 1;
 /**
 INSERT INTO user (user_type, username, email, hashed_password) 
 	VALUES (4, "admin", "admin@videogamedb.com", "password");*/
