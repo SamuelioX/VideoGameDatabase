@@ -6,15 +6,10 @@
         <script src="/javascripts/searchGame.js"></script>
         
         <div ng-app="searchApp" ng-controller="searchCtrl">
-            <!--<input type="number" ng-model="test" ng-keyup="test = test + 1"> key up count: {{test}}-->
             <input ng-model="gamename" ng-keyup="searchGame(gamename)">
             <br>
-            <!--<button type="button" ng-Click="searchGame(gamename)">Search</button>-->
-            <!--{{myWelcome}}-->
-            <!--{{response}}-->
             <div ng-repeat="r in response">
-                {{r.name}} {{r.id}}
-                <a ng-href="http://localhost:3000/getGameInfo={{r.name}}">link1</a>
+                <a ng-href="detailedPage.html?id={{r.id}}">{{r.name}} {{r.id}}</a>
             </div>
         </div>
     </body>
