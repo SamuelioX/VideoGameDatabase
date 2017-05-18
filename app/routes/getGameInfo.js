@@ -19,6 +19,13 @@ router.get('/', function (req, res) {
 });
 
 function getGameInfo(gameId, callback) {
+    console.log("Invoked: getGameInfo");
+
+    // Check that input is not null
+    if (gameId == undefined) {
+        callback({"success": false, "message": "gameId not supplied, but required."});
+        return;
+    }
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data
@@ -49,7 +56,7 @@ function getGameInfo(gameId, callback) {
             delete row.system;
         });
         db.get().end();
-        callback(rows);
+        callback(rows[0]);
 
     });
 

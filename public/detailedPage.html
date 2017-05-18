@@ -9,20 +9,23 @@
             <div ng-model="data" ng-init="detailedPage()">
                 <!--                {{data}}-->
                 <!--<button type="button" ng-Click="detailedPage()">Search</button>-->
-                {{response}}
+                Name: {{response.name}}
+                <br>
+                Developer: {{response.developer}}
+                <br>
+                Publisher: {{response.publisher}}
+                <br>
+                Rating: {{response.rating}}
+                <br>
+                ESRB Rating: {{response.ESRBrating}}
+                <br>
+                Year: {{response.year}}
+                <br>
+                System List: 
+                <div ng-repeat="s in response.system_list">
+                    {{s.system}}
+                </div>
             </div>
         </div>
-        <!--        <div ng-app="searchApp" ng-controller="searchCtrl">
-                    
-                    <input ng-model="gamename" ng-keyup="searchGame(gamename)">
-                    <input type="number" ng-model="test" ng-keyup="test = test + 1"> key up count: {{test}}
-                    <br>
-                    <button type="button" ng-Click="searchGame(gamename)">Search</button>
-                    {{myWelcome}}
-                    {{response}}
-                    <div ng-repeat="r in response">
-                        {{r.name}}
-                    </div>
-                </div>-->
     </body>
 </html>

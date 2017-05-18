@@ -31,7 +31,7 @@ function getGameList(callback) {
     db.get().query(userQuery, function (err, rows) {
         if (err) {
             console.log(err);
-            callback({"success": false, "message": "something went wrong in the db."});
+            callback({"success": false, "message": "something went wrong in the db." + err});
             return;
         }
         db.get().end();
