@@ -35,7 +35,7 @@ describe("Test Game Info", function () {
                 .query({gameId: 1})
                 .end(function (err, res) {
 //                    expect(res.body).to.have.lengthOf(1);
-                    assert.equal("Mega Man X2", res.body[0].name);
+                    assert.equal("Mega Man X2", res.body.name);
                     done(err);
                 });
     });
