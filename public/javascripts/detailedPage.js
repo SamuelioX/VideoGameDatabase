@@ -1,4 +1,4 @@
-var detailedApp = angular.module("detailedApp", []);
+var detailedApp = angular.module("detailedApp", ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 //app.config(function ($routeProvider){
 //    $routeProvider.when("/")
 //})
@@ -31,28 +31,17 @@ detailedApp.controller("searchCtrl", function ($scope, $http) {
     };
 });
 
+detailedApp.controller('CollapseDemoCtrl', function ($scope) {
+    $scope.isNavCollapsed = true;
+    $scope.isCollapsed = false;
+    $scope.isCollapsedHorizontal = false;
+});
+
 detailedApp.controller('loginCtrl', function ($scope) {
-    $scope.groups = [
-        {
-            title: 'Dynamic Group Header - 1',
-            content: 'Dynamic Group Body - 1'
-        },
-        {
-            title: 'Dynamic Group Header - 2',
-            content: 'Dynamic Group Body - 2'
-        }
-    ];
-
-    $scope.items = ['Item 1', 'Item 2', 'Item 3'];
-
-    $scope.addItem = function () {
-        var newItemNo = $scope.items.length + 1;
-        $scope.items.push('Item ' + newItemNo);
-    };
-
-    $scope.status = {
-        isCustomHeaderOpen: false,
-        isFirstOpen: true,
-        isFirstDisabled: false
-    };
+    var username = $scope.username;
+    var password = $scope.password;
+//    password = 
+    $scope.isNavCollapsed = true;
+    $scope.isCollapsed = true;
+    $scope.isCollapsedHorizontal = false;
 });
