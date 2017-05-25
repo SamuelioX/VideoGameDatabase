@@ -20,6 +20,9 @@ exports.connect = function (mode) {
         user: process.env.RDS_USERNAME,
         password: process.env.RDS_PASSWORD,
         port: process.env.RDS_PORT,
+//        host: 'localhost',
+//        user: 'root',
+//        password: 'root',
         database: mode === exports.MODE_PRODUCTION ? PRODUCTION_DB : DEVELOPMENT_DB
                 // socketPath: '/var/run/mysqld/mysqld.sock'
     });
