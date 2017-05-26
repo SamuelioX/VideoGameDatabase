@@ -1,27 +1,4 @@
-var detailedApp = angular.module("detailedApp", ['ngAnimate', 'ngSanitize', 'ui.bootstrap']).service('authentication', authentication);
-;
-
-authentication.$inject = ['$http', '$window'];
-function authentication($http, $window) {
-
-    var saveToken = function (token) {
-        $window.localStorage['token'] = token;
-    };
-
-    var getToken = function () {
-        return $window.localStorage['token'];
-    };
-
-    logout = function () {
-        $window.localStorage.removeItem('token');
-    };
-
-    return {
-        saveToken: saveToken,
-        getToken: getToken,
-        logout: logout
-    };
-}
+var detailedApp = angular.module("detailedApp", ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 
 detailedApp.config(['$locationProvider', function ($locationProvider) {
         $locationProvider.html5Mode({
@@ -29,6 +6,28 @@ detailedApp.config(['$locationProvider', function ($locationProvider) {
             requireBase: false
         });
     }]);
+
+detailedApp.controller('loginCtrl', function ($scope, $window, $http) {
+    $scope.isNavCollapsed = true;
+    $scope.isCollapsed = true;
+    $scope.isCollapsedHorizontal = false;
+    $scope.submit = function () {
+        var username = $scope.username;
+        var password = $scope.password;
+        if ($scope.username == 'admin' && $scope.password == 'admin') {
+            $window.location.href = '/';
+        }
+        $http.post('/authenticate', $scope.user).success(function (data, status, headers, config) {
+            $window.sessionStorage.token = data.token;
+            $scope.message = 'Welcome';
+        }).error(function (data, status, headers, config) {
+            // Erase the token if the user fails to log in
+            delete $window.sessionStorage.token;
+            // Handle login errors here
+            $scope.message = 'Error: Invalid user or password';
+        });
+    };
+});
 
 detailedApp.controller("detailedCtrl", function ($scope, $http, $location) {
     $scope.detailedPage = function () {
@@ -53,61 +52,19 @@ detailedApp.controller("searchCtrl", function ($scope, $http) {
     };
 });
 
-detailedApp.controller('CollapseDemoCtrl', function ($scope) {
-    $scope.isNavCollapsed = true;
-    $scope.isCollapsed = false;
-    $scope.isCollapsedHorizontal = false;
-});
-
-detailedApp.controller('loginCtrl', function ($scope) {
-    var username = $scope.username;
-    var password = $scope.password;
-
-    $scope.isNavCollapsed = true;
-    $scope.isCollapsed = true;
-    $scope.isCollapsedHorizontal = false;
-});
-
-detailedApp.run(function ($rootScope, $location, $state, Loginrvice) {
-    $rootScope.$on('$stateChangeStart',
-            function (event, toState, toParams, fromState, fromParams) {
-                console.log('Changed state to: ' + toState);
-            });
-
-    if (!LoginService.isAuthenticated()) {
-        $state.transitionTo('login');
-    }
-});
-
-detailedApp.controller('LoginController', function ($scope, $rootScope, $stateParams, $state, LoginService) {
-    $rootScope.title = "AngularJS Login Sample";
-
-    $scope.formSubmit = function () {
-        if (LoginService.login($scope.username, $scope.password)) {
-            $scope.error = '';
-            $scope.username = '';
-            $scope.password = '';
-            $state.transitionTo('home');
-        } else {
-            $scope.error = "Incorrect username/password !";
-        }
-    };
-
-});
-
-app.factory('LoginService', function () {
-    var admin = 'admin';
-    var pass = 'pass';
-    var isAuthenticated = false;
-
-    return {
-        login: function (username, password) {
-            isAuthenticated = username === admin && password === pass;
-            return isAuthenticated;
-        },
-        isAuthenticated: function () {
-            return isAuthenticated;
-        }
-    };
-
-});
+//app.factory('LoginService', function () {
+//    var admin = 'admin';
+//    var pass = 'pass';
+//    var isAuthenticated = false;
+//
+//    return {
+//        login: function (username, password) {
+//            isAuthenticated = username === admin && password === pass;
+//            return isAuthenticated;
+//        },
+//        isAuthenticated: function () {
+//            return isAuthenticated;
+//        }
+//    };
+//
+//});

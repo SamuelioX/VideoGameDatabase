@@ -23,6 +23,11 @@ app.use(cookieParser());
 app.use(require('less-middleware')('./public'));
 app.use(express.static('./public'));
 
+var expressJwt = require('express-jwt');
+var jwt = require('jsonwebtoken');
+
+app.use('/routes', expressJwt({secret: 'secret'}));
+
 app.use('/getGameList', require('./routes/getGameList'));
 app.use('/getGameInfo', require('./routes/getGameInfo'));
 app.use('/getUserList', require('./routes/getUserList'));

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
-        <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+        <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>-->
         <title>VideogameDB</title>
         <script src="/javascripts/detailedPage.js"></script>
@@ -15,29 +16,28 @@
     </head>
 
     <body>
-
         <div ng-app="detailedApp">
             <div ng-controller="loginCtrl">
                 <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">login</button>
                 <div uib-collapse="isCollapsed">
                     <div class="col-md-12">
-                        <!--<form ng-submit="formSubmit()" class="form">-->
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control" ng-model="username" placeholder="username" required="" />
-                            </div>
+                        <form ng-submit="submit()" class="form">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="username" placeholder="username" required="" />
+                                </div>
 
-                            <div class="form-group">
-                                <input type="password" class="form-control" ng-model="password" placeholder="password" required="" />
-                            </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" ng-model="password" placeholder="password" required="" />
+                                </div>
 
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-success" ng-controller="loginCtrl">Login</button>
-                                <span class="text-danger">{{ error}}</span>
-                            </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success" >Login</button>
+                                    <!--<span class="text-danger">{{ error}}</span>-->
+                                </div>
 
-                        </div>
-                        <!--</form>-->
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -48,9 +48,6 @@
                     <div ng-repeat="r in response">
                         <a ng-href="detailedPage.html?id={{r.id}}">{{r.name}}</a>
                     </div> 
-                </div>
-                <div ng-controller="loginCtrl">
-
                 </div>
             </div>
         </div>
