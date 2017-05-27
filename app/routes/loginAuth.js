@@ -6,6 +6,7 @@
 var express = require('express');
 var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
+var crypto = require('crypto');
 
 // Get database access
 var db = require('../db');
@@ -13,6 +14,7 @@ var db = require('../db');
 var router = express.Router();
 
 router.get('/', function (req, res) {
+    
     getUserList(function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
@@ -26,7 +28,8 @@ function getUserList(callback) {
 
     //table concats system type by '
     var userQuery = "SELECT username, password FROM user;";
-
+    //hash password here
+    
     db.get().query(userQuery, function (err, rows) {
         if (err) {
             console.log(err);

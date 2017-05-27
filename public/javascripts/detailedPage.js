@@ -17,7 +17,7 @@ detailedApp.controller('loginCtrl', function ($scope, $window, $http) {
         if ($scope.username == 'admin' && $scope.password == 'admin') {
             $window.location.href = '/';
         }
-        $http.post('/authenticate', $scope.user).success(function (data, status, headers, config) {
+        $http.post('/loginAuth', $scope.user).success(function (data, status, headers, config) {
             $window.sessionStorage.token = data.token;
             $scope.message = 'Welcome';
         }).error(function (data, status, headers, config) {
