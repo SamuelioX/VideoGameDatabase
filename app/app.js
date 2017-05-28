@@ -14,7 +14,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
 app.use(favicon('./public/images/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -23,10 +22,10 @@ app.use(cookieParser());
 app.use(require('less-middleware')('./public'));
 app.use(express.static('./public'));
 
-var expressJwt = require('express-jwt');
-var jwt = require('jsonwebtoken');
-
-app.use('/routes', expressJwt({secret: 'secret'}));
+//var expressJwt = require('express-jwt');
+//var jwt = require('jsonwebtoken');
+//
+//app.use('/routes', expressJwt({secret: 'secret'}));
 
 app.use('/getGameList', require('./routes/getGameList'));
 app.use('/getGameInfo', require('./routes/getGameInfo'));
@@ -35,6 +34,8 @@ app.use('/searchGame', require('./routes/searchGame'));
 app.use('/getAllGameReviews', require('./routes/getAllGameReviews'));
 app.use('/getAllUserReviews', require('./routes/getAllUserReviews'));
 app.use('/getGameSystemList', require('./routes/getGameSystemList'));
+app.use('/register', require('./routes/register'));
+app.use('/loginAuth', require('./routes/loginAuth'));
 
 //app.use('/', index);
 //app.use('/users', users);
