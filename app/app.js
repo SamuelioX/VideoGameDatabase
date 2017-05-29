@@ -31,6 +31,8 @@ app.use('/getGameList', require('./routes/getGameList'));
 app.use('/getGameInfo', require('./routes/getGameInfo'));
 app.use('/getUserList', require('./routes/getUserList'));
 app.use('/searchGame', require('./routes/searchGame'));
+app.use('/searchUser', require('./routes/searchUser'));
+app.use('/searchEmail', require('./routes/searchEmail'));
 app.use('/getAllGameReviews', require('./routes/getAllGameReviews'));
 app.use('/getAllUserReviews', require('./routes/getAllUserReviews'));
 app.use('/getGameSystemList', require('./routes/getGameSystemList'));

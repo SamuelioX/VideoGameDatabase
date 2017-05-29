@@ -13,12 +13,12 @@ var path = require('path');
 var options = {
     key: process.env.AWS_SECRET_KEY,
     cert: process.env.AWS_ACCESS_KEY_ID
+    
 ////    key: fs.readFileSync(path.resolve(__dirname, '../../../../etc/pki/tls/certs/server.key')),
 ////    cert: fs.readFileSync(path.resolve(__dirname, '../../../../etc/pki/tls/certs/server.pem'))
 //    key: fs.readFileSync(path.resolve(__dirname, '../certs/server.key')),
 //    cert: fs.readFileSync(path.resolve(__dirname, '../certs/server.pem'))
 };
-
 /**
  * Get port from environment and store in Express.
  */

@@ -80,4 +80,5 @@ INSERT INTO user (user_type, username, email, hashed_password)
 INSERT INTO user_password (password, salt)
 	VALUES ( */
 /**INSERT INTO user (user_type, username, user_join_date, email, salt, password) VALUES (1, "'sam'", "2015-07-23", "'samueliox@gmail.com'", "269fb3f61347aa9d", "3e02e87cd5b5e3fbb7ffbb55b5c0df1ea498d3228049156b01afb8a8f8e5cac97cbc435e74eb5b290d9cb9e90eaca39c1a415f75be723c7077e94b7781dd5cc5");*/
-INSERT INTO user (user_type, username, user_join_date, email, salt, password) VALUES (1, 'sam', "2017-05-28", 'samueliox@gmail.com', "724cbb5d46ef4ed0", "c9959dc3772b160d561eb65b122e1f0a8a6a313f69c4ff618e67f95ee711e2261890bc980981653164dc166a3e6e450fbc2bbfa16d9bf10322aabdbdc94a43bb");
+/**INSERT INTO user (user_type, username, user_join_date, email, salt, password) VALUES (1, 'sam', "2017-05-28", 'samueliox@gmail.com', "724cbb5d46ef4ed0", "c9959dc3772b160d561eb65b122e1f0a8a6a313f69c4ff618e67f95ee711e2261890bc980981653164dc166a3e6e450fbc2bbfa16d9bf10322aabdbdc94a43bb");*/
+SELECT username, email, salt, password FROM user WHERE (user.username = 'sam' OR user.email = 'sam'");

@@ -18,21 +18,42 @@ app.controller('loginCtrl', function ($scope, $window, $http) {
             username: $scope.username,
             password: $scope.password
         };
-        if ($scope.username == 'admin' && $scope.password == 'admin') {
-            $window.location.href = '/';
-        }
-        $http.post('/loginAuth', user).success(function (data, status, headers, config) {
-            $window.sessionStorage.token = data.token;
+//        if ($scope.username == 'admin' && $scope.password == 'admin') {
+//            $window.location.href = '/';
+//        }
+        $scope.user = user;
+        $http.post('/loginAuth', $scope.user).then(function (data, status, headers, config) {
+//            $window.sessionStorage.token = data.token;
             $scope.message = 'Welcome';
-        }).error(function (data, status, headers, config) {
-            // Erase the token if the user fails to log in
-            delete $window.sessionStorage.token;
-            // Handle login errors here
-            $scope.message = 'Error: Invalid user or password';
+            $window.location.href = '/';
         });
+//                .error(function (data, status, headers, config) {
+//            // Erase the token if the user fails to log in
+//            delete $window.sessionStorage.token;
+//            // Handle login errors here
+//            $scope.message = 'Error: Invalid user or password';
+//        });
     };
 });
 app.controller('registerCtrl', function ($scope, $window, $http) {
+    $scope.checkDuplicateEmail = function () {
+        var email = $scope.email;
+        var endpoint = "/searchEmail?email=" + email;
+//        var endpoint = "http://localhost:3000/searchGame?gamename=" + name;
+        $http.get(endpoint).then(function (response) {
+//            console.log(response);
+            $scope.emailAvail = response.data.available;
+        });
+    };
+    $scope.checkDuplicateUsername = function () {
+        var username = $scope.username;
+        var endpoint = "/searchUser?username=" + username;
+//        var endpoint = "http://localhost:3000/searchGame?gamename=" + name;
+        $http.get(endpoint).then(function (response) {
+//            console.log(response);
+            $scope.usernameAvail = response.data.available;
+        });
+    };
     $scope.register = function () {
 //        var username = $scope.username;
 //        var password = $scope.password;
