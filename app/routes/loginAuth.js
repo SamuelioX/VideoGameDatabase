@@ -43,10 +43,13 @@ function authorizeAccount(user, callback) {
             return;
         }
         db.get().end();
+        var currUser = {
+            username: user.username
+        };
         var hashedPass = sha512(password, rows[0].salt);
         console.log(hashedPass.passwordHash + " " + rows[0].password);
         if(hashedPass.passwordHash == rows[0].password){
-            var token = jwt.sign({expiresInMinutes: 60 * 5});
+            var token = jwt.sign(currUser, process.env.AWS_SECRET_KEY, {expiresInMinutes: 60 * 5});
             callback(token);
         } else {
             callback({"success": false});
