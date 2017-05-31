@@ -50,7 +50,7 @@ function authorizeAccount(user, callback) {
         console.log(hashedPass.passwordHash + " " + rows[0].password);
         if(hashedPass.passwordHash == rows[0].password){
             var token = jwt.sign(currUser, process.env.AWS_SECRET_KEY, {expiresInMinutes: 60 * 5});
-            callback(token);
+            callback({"success": true, token: token});
         } else {
             callback({"success": false});
         }

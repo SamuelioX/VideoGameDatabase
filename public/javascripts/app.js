@@ -22,8 +22,14 @@ app.controller('loginCtrl', function ($scope, $window, $http) {
 //            $window.location.href = '/';
 //        }
         $scope.user = user;
-        $http.post('/loginAuth', $scope.user).then(function (data, status, headers, config) {
-//            $window.sessionStorage.token = data.token;
+        $http.post('/loginAuth', $scope.user).then(function (response) {
+            //check if the token is real 
+            if(response.data.success == false){
+                $window.location.href = '/';
+            } else {
+                $window.sessionStorage.token = response.data.token;
+            }
+            
             $scope.message = 'Welcome';
             $window.location.href = '/';
         });

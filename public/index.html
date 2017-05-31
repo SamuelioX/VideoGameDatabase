@@ -17,6 +17,13 @@
 
     <body>
         <div ng-app="app">
+            <div ng-controller="searchCtrl">
+                <input ng-model="gamename" ng-keyup="searchGame(gamename)">
+                <br>
+                <div ng-repeat="r in response">
+                    <a ng-href="detailedPage.html?id={{r.id}}">{{r.name}}</a>
+                </div> 
+            </div>
             <div ng-controller="loginCtrl">
                 <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">login</button>
                 <div uib-collapse="isCollapsed">
@@ -41,13 +48,7 @@
                     </div>
                 </div>
             </div>
-            <div ng-controller="searchCtrl">
-                <input ng-model="gamename" ng-keyup="searchGame(gamename)">
-                <br>
-                <div ng-repeat="r in response">
-                    <a ng-href="detailedPage.html?id={{r.id}}">{{r.name}}</a>
-                </div> 
-            </div>
+
         </div>
     </body>
 </html>
