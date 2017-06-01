@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var jwt = require('jwt-simple');
 //var index = require('./routes/index');
 //var users = require('./routes/users');
 
@@ -22,10 +22,6 @@ app.use(cookieParser());
 app.use(require('less-middleware')('./public'));
 app.use(express.static('./public'));
 
-//var expressJwt = require('express-jwt');
-//var jwt = require('jsonwebtoken');
-//
-//app.use('/routes', expressJwt({secret: 'secret'}));
 
 app.use('/getGameList', require('./routes/getGameList'));
 app.use('/getGameInfo', require('./routes/getGameInfo'));
@@ -36,8 +32,10 @@ app.use('/searchEmail', require('./routes/searchEmail'));
 app.use('/getAllGameReviews', require('./routes/getAllGameReviews'));
 app.use('/getAllUserReviews', require('./routes/getAllUserReviews'));
 app.use('/getGameSystemList', require('./routes/getGameSystemList'));
+app.use('/getUserDetails', require('./routes/getUserDetails'));
 app.use('/register', require('./routes/register'));
 app.use('/loginAuth', require('./routes/loginAuth'));
+app.use('/verifyToken', require('./routes/verifyToken'));
 
 //app.use('/', index);
 //app.use('/users', users);
@@ -59,5 +57,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//setting jwt token
+//app.set('jwtTokenSecret', process.env.AWS_SECRET_KEY);
+app.set('jwtTokenSecret', 'token');
 
 module.exports = app;

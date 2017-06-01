@@ -11,9 +11,7 @@ app.controller('loginCtrl', function ($scope, $window, $http) {
     $scope.isNavCollapsed = true;
     $scope.isCollapsed = true;
     $scope.isCollapsedHorizontal = false;
-    $scope.submit = function () {
-//        var username = $scope.username;
-//        var password = $scope.password;
+    $scope.login = function () {
         var user = {
             username: $scope.username,
             password: $scope.password
@@ -24,14 +22,14 @@ app.controller('loginCtrl', function ($scope, $window, $http) {
         $scope.user = user;
         $http.post('/loginAuth', $scope.user).then(function (response) {
             //check if the token is real 
-            if(response.data.success == false){
+            if (response.data.success == false) {
+                $scope.message = 'Error: Invalid user or password';
                 $window.location.href = '/';
             } else {
+                $scope.message = 'Success: Logged in successfully!';
                 $window.sessionStorage.token = response.data.token;
+                $window.location.href = '/profile.html';
             }
-            
-            $scope.message = 'Welcome';
-            $window.location.href = '/';
         });
 //                .error(function (data, status, headers, config) {
 //            // Erase the token if the user fails to log in
@@ -40,8 +38,11 @@ app.controller('loginCtrl', function ($scope, $window, $http) {
 //            $scope.message = 'Error: Invalid user or password';
 //        });
     };
+    $scope.register = function () {
+        $window.location.href = '/register.html';
+    };
 });
-app.controller('registerCtrl', function ($scope, $window, $http) {
+app.controller('registerAcctCtrl', function ($scope, $window, $http) {
     $scope.checkDuplicateEmail = function () {
         var email = $scope.email;
         var endpoint = "/searchEmail?email=" + email;
@@ -60,7 +61,7 @@ app.controller('registerCtrl', function ($scope, $window, $http) {
             $scope.usernameAvail = response.data.available;
         });
     };
-    $scope.register = function () {
+    $scope.registerAcct = function () {
 //        var username = $scope.username;
 //        var password = $scope.password;
         var user = {
@@ -77,8 +78,8 @@ app.controller('registerCtrl', function ($scope, $window, $http) {
     };
 });
 
-app.controller("detailedCtrl", function ($scope, $http, $location) {
-    $scope.detailedPage = function () {
+app.controller("detailedGameCtrl", function ($scope, $http, $location) {
+    $scope.getDetailedPage = function () {
         var loc = $location.search();
         var id = $location.search().id;
         console.log(id + "id = ");
@@ -97,5 +98,27 @@ app.controller("searchCtrl", function ($scope, $http) {
         $http.get(endpoint).then(function (response) {
             $scope.response = response.data;
         });
+    };
+});
+
+app.controller("detailedProfileCtrl", function ($scope, $window, $http, $location) {
+    $scope.getDetailedProfile = function () {
+        if ($window.sessionStorage.token) {
+            $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
+                var userId = response.data.userid;
+                getDetails(userId);
+            });
+        } else {
+            $scope.response = "there are no tokens";
+        }
+        var getDetails = function (userId) {
+            var endpoint = "/getUserDetails?userId=" + userId;
+            $http.get(endpoint).then(function (response) {
+                $scope.username = response.data.username;
+                $scope.user_join_date = response.data.user_join_date;
+                $scope.email = response.data.email;
+            });
+        };
+
     };
 });

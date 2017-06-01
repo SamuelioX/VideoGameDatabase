@@ -28,7 +28,7 @@
                 <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">login</button>
                 <div uib-collapse="isCollapsed">
                     <div class="col-md-12">
-                        <form ng-submit="submit()" class="form">
+                        <form ng-submit="login()" class="form">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <input type="text" class="form-control" ng-model="username" placeholder="username" required="" />
@@ -41,14 +41,15 @@
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-success" >Login</button>
                                     <!--<span class="text-danger">{{ error}}</span>-->
+                                    <button type="button" class="btn btn-success" ng-click="register()">Register</button>
                                 </div>
-
                             </div>
                         </form>
                     </div>
                 </div>
+                
             </div>
-
+            {{message}}
         </div>
     </body>
 </html>

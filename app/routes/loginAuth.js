@@ -8,7 +8,7 @@ var crypto = require('crypto');
 var mysql = require('mysql');
 // Get database access
 var db = require('../db');
-var jwt = require('express-jwt');
+var jwt = require('jwt-simple');
 var router = express.Router();
 
 router.post('/', function (req, res) {
@@ -19,7 +19,7 @@ router.post('/', function (req, res) {
         password: password
     };
     authorizeAccount(user, function (data) {
-        res.setHeader('Content-Type', 'application/json');
+//        res.setHeader('Content-Type', 'application/json');
         res.json(data);
     });
 });
@@ -32,7 +32,7 @@ function authorizeAccount(user, callback) {
     var username = user.username;
     var password = user.password;
     //gets the hashed password and inserts it into the database
-    var userQuery = "SELECT username, email, salt, password " +
+    var userQuery = "SELECT id, username, email, salt, password " +
             "FROM user WHERE (user.username = " + mysql.escape(username) + " OR user.email = " +
             mysql.escape(username) + ');';
     //hash password here
@@ -44,43 +44,20 @@ function authorizeAccount(user, callback) {
         }
         db.get().end();
         var currUser = {
-            username: user.username
+            userid: rows[0].id,
+            //set to 7 days expiration
+            expire: 10080 * 60
         };
         var hashedPass = sha512(password, rows[0].salt);
-        console.log(hashedPass.passwordHash + " " + rows[0].password);
         if(hashedPass.passwordHash == rows[0].password){
-            var token = jwt.sign(currUser, process.env.AWS_SECRET_KEY, {expiresInMinutes: 60 * 5});
-            callback({"success": true, token: token});
+            var token = jwt.encode(currUser, 'token');
+            callback({"success": true, "token": token});
         } else {
             callback({"success": false});
         }
     });
-
-//    var token = jwt.sign(profile, secret, {expiresInMinutes: 60 * 5});
-    callback();
-
 }
 
-//express.post('/authenticate', function (req, res) {
-//    //TODO validate req.body.username and req.body.password
-//    //if is invalid, return 401
-//    if (!(req.body.username === 'john.doe' && req.body.password === 'foobar')) {
-//        res.send(401, 'Wrong user or password');
-//        return;
-//    }
-//
-//    var profile = {
-//        first_name: 'John',
-//        last_name: 'Doe',
-//        email: 'john@doe.com',
-//        id: 123
-//    };
-//
-//    // We are sending the profile inside the token
-//    var token = jwt.sign(profile, secret, {expiresInMinutes: 60 * 5});
-//
-//    res.json({token: token});
-//});
 var genRandomString = function (length) {
     return crypto.randomBytes(Math.ceil(length / 2))
             .toString('hex') /** convert to hexadecimal format */

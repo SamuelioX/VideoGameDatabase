@@ -36,16 +36,13 @@ function registerAccount(user, callback) {
     var email = user.email;
     //gets the hashed password and inserts it into the database
     var hashedPass = saltHashPassword(password);
-//    console.log(hashedPass);
-//    console.log(user);
-    //table concats system type by '
     var date = (new Date()).toISOString().substring(0, 10);
-//    console.log(date);
-//2015-07-23
+    
     var registerQuery = 'INSERT INTO user (user_type, username, user_join_date, email, salt, password) ' +
-            'VALUES (1, ' + mysql.escape(username) + ', "' + date + '", ' + mysql.escape(email) + ', "' + hashedPass.salt + '", "' +
+            'VALUES (1, ' + mysql.escape(username) + ', "' + date + '", ' + 
+            mysql.escape(email) + ', "' + hashedPass.salt + '", "' +
             hashedPass.passwordHash + '");';
-    console.log(registerQuery);
+
     //hash password here
     db.get().query(registerQuery, function (err, rows) {
         if (err) {
