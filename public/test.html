@@ -1,166 +1,30 @@
 <!doctype html>
-<html ng-app="ui.bootstrap.demo">
+<html>
     <head>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
-        <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
-        <script src="example.js"></script>
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <script>
-            var detailedApp = angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-            angular.module('ui.bootstrap.demo').controller('AccordionDemoCtrl', function ($scope) {
-                $scope.oneAtATime = true;
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-route.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-aria.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-messages.min.js"></script>
+        <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>-->
+        <title>VideogameDB</title>
+        <script src="/javascripts/app.js"></script>
+        <script src="/javascripts/test.js"></script>
 
-                $scope.groups = [
-                    {
-                        title: 'Dynamic Group Header - 1',
-                        content: 'Dynamic Group Body - 1'
-                    },
-                    {
-                        title: 'Dynamic Group Header - 2',
-                        content: 'Dynamic Group Body - 2'
-                    }
-                ];
-
-                $scope.items = ['Item 1', 'Item 2', 'Item 3'];
-
-                $scope.addItem = function () {
-                    var newItemNo = $scope.items.length + 1;
-                    $scope.items.push('Item ' + newItemNo);
-                };
-
-                $scope.status = {
-                    isCustomHeaderOpen: false,
-                    isFirstOpen: true,
-                    isFirstDisabled: false
-                };
-            });
-            detailedApp.config(['$locationProvider', function ($locationProvider) {
-                    $locationProvider.html5Mode({
-                        enabled: true,
-                        requireBase: false
-                    });
-                }]);
-
-            detailedApp.controller("detailedCtrl", function ($scope, $http, $location) {
-                $scope.detailedPage = function () {
-                    var loc = $location.search();
-                    var id = $location.search().id;
-                    var endpoint = "http://sample-env-1.hdvxynmgpf.us-west-2.elasticbeanstalk.com/getGameInfo?gameId=" + id;
-                    $http.get(endpoint).then(function (response) {
-                        $scope.response = response.data;
-                    });
-                };
-            });
-
-            detailedApp.controller("searchCtrl", function ($scope, $http) {
-                var name = $scope.gamename;
-                $scope.searchGame = function (name) {
-                    var endpoint = "http://sample-env-1.hdvxynmgpf.us-west-2.elasticbeanstalk.com/searchGame?gamename=" + name;
-//        var endpoint = "http://localhost:3000/searchGame?gamename=" + name;
-                    $http.get(endpoint).then(function (response) {
-                        $scope.response = response.data;
-                    });
-                };
-            });
-
-            detailedApp.controller('loginCtrl', function ($scope) {
-                $scope.groups = [
-                    {
-                        title: 'Dynamic Group Header - 1',
-                        content: 'Dynamic Group Body - 1'
-                    },
-                    {
-                        title: 'Dynamic Group Header - 2',
-                        content: 'Dynamic Group Body - 2'
-                    }
-                ];
-
-                $scope.items = ['Item 1', 'Item 2', 'Item 3'];
-
-                $scope.addItem = function () {
-                    var newItemNo = $scope.items.length + 1;
-                    $scope.items.push('Item ' + newItemNo);
-                };
-
-                $scope.status = {
-                    isCustomHeaderOpen: false,
-                    isFirstOpen: true,
-                    isFirstDisabled: false
-                };
-            });
-
-        </script>
+        <link rel="stylesheet" href="/css/index.css">
     </head>
-    <body>
+    <body ng-app="test" ng-model="test">
+        <!--<div ng-include src="'htm/autoComplete.html'">-->
 
-        <div ng-controller="searchCtrl">
-            <input ng-model="gamename" ng-keyup="searchGame(gamename)">
-            <br>
-            <div ng-repeat="r in response">
-                <a ng-href="detailedPage.html?id={{r.id}}">{{r.name}}</a>
-            </div> 
+        <!--</div>-->
+        <div ng-controller="test" >
+            <button ng-click="checkDate()">test</button>
+            {{test}}
         </div>
-        <div ng-controller="AccordionDemoCtrl">
-<!--            <script type="text/ng-template" id="group-template.html">
-                <div class="panel-heading">
-                <h4 class="panel-title" style="color:#fa39c3">
-                <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading">
-                <span uib-accordion-header ng-class="{'text-muted': isDisabled}">
-                {{heading}}
-                </span>
-                </a>
-                </h4>
-                </div>
-                <div class="panel-collapse collapse" uib-collapse="!isOpen">
-                <div class="panel-body" style="text-align: right" ng-transclude></div>
-                </div>
-            </script>-->
 
-<!--            <p>
-                <button type="button" class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>
-                <button type="button" class="btn btn-default btn-sm" ng-click="status.isFirstDisabled = !status.isFirstDisabled">Enable / Disable first panel</button>
-            </p>
-
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" ng-model="oneAtATime">
-                    Open only one at a time
-                </label>
-            </div>-->
-            <uib-accordion>
-                <div uib-accordion-group class="panel-default" heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
-                    This content is straight in the template.
-                </div>
-                <div uib-accordion-group class="panel-default" heading="{{group.title}}" ng-repeat="group in groups">
-                    {{group.content}}
-                </div>
-                <div uib-accordion-group class="panel-default" heading="Dynamic Body Content">
-                    <p>The body of the uib-accordion group grows to fit the contents</p>
-                    <button type="button" class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button>
-                    <div ng-repeat="item in items">{{item}}</div>
-                </div>
-                <div uib-accordion-group class="panel-default" heading="Custom template" template-url="group-template.html">
-                    Hello
-                </div>
-                <div uib-accordion-group class="panel-default" is-open="status.isCustomHeaderOpen" template-url="group-template.html">
-                    <uib-accordion-heading>
-                        Custom template with custom header template <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.isCustomHeaderOpen, 'glyphicon-chevron-right': !status.isCustomHeaderOpen}"></i>
-                    </uib-accordion-heading>
-                    World
-                </div>
-                <div uib-accordion-group class="panel-danger" heading="Delete account">
-                    <p>Please, to delete your account, click the button below</p>
-                    <button class="btn btn-danger">Delete</button>
-                </div>
-                <div uib-accordion-group class="panel-default" is-open="status.open">
-                    <uib-accordion-heading>
-                        I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                    </uib-accordion-heading>
-                    This is just some content to illustrate fancy headings.
-                </div>
-            </uib-accordion>
-        </div>
     </body>
 </html>

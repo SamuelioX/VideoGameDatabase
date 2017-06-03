@@ -1,4 +1,5 @@
-var app = angular.module("app", ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+var app = angular.module("app", ['ngAnimate', 'ngMaterial', 'ngSanitize', 'ui.bootstrap']);
+
 
 app.config(['$locationProvider', function ($locationProvider) {
         $locationProvider.html5Mode({
@@ -77,7 +78,6 @@ app.controller('registerAcctCtrl', function ($scope, $window, $http) {
         });
     };
 });
-
 app.controller("detailedGameCtrl", function ($scope, $http, $location) {
     $scope.getDetailedPage = function () {
         var loc = $location.search();
@@ -89,18 +89,15 @@ app.controller("detailedGameCtrl", function ($scope, $http, $location) {
         });
     };
 });
-
 app.controller("searchCtrl", function ($scope, $http) {
     var name = $scope.gamename;
     $scope.searchGame = function (name) {
         var endpoint = "/searchGame?gamename=" + name;
-//        var endpoint = "http://localhost:3000/searchGame?gamename=" + name;
         $http.get(endpoint).then(function (response) {
             $scope.response = response.data;
         });
     };
 });
-
 app.controller("detailedProfileCtrl", function ($scope, $window, $http, $location) {
     $scope.getDetailedProfile = function () {
         if ($window.sessionStorage.token) {
@@ -119,6 +116,5 @@ app.controller("detailedProfileCtrl", function ($scope, $window, $http, $locatio
                 $scope.email = response.data.email;
             });
         };
-
     };
 });

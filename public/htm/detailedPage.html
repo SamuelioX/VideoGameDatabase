@@ -1,0 +1,22 @@
+<div ng-controller="detailedGameCtrl">
+    <div ng-model="data" ng-init="getDetailedPage()">
+        <!--                {{data}}-->
+        <!--<button type="button" ng-Click="detailedPage()">Search</button>-->
+        Name: {{response.name}}
+        <br>
+        Developer: {{response.developer}}
+        <br>
+        Publisher: {{response.publisher}}
+        <br>
+        Rating: {{response.rating}}
+        <br>
+        ESRB Rating: {{response.ESRBrating}}
+        <br>
+        Year: {{response.year}}
+        <br>
+        System List: 
+        <div ng-repeat="s in response.system_list">
+            {{s.system}}
+        </div>
+    </div>
+</div>
