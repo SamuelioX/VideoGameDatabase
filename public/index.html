@@ -18,13 +18,19 @@
 
     <body>
         <div ng-app="app">
-            <div ng-include src="'htm/navbar.html'"></div>
-            <div ng-include src="'htm/search.html'"></div>
-
-            <div ng-include src="'htm/login.html'"></div>
-
+            <div id="header-menu">
+                <div  ng-include src="'htm/login.html'"></div>
             </div>
-            {{message}}
+            <div id="contentwrapper">
+                <div id="content">
+                   
+                    <div ng-include src="'htm/navbar.html'"></div>
+                    <div ng-include src="'htm/search.html'"></div>
+                    
+                </div>
+            </div>
+
+
         </div>
     </body>
 </html>

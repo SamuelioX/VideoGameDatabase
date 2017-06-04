@@ -45,6 +45,7 @@ function authorizeAccount(user, callback) {
         db.get().end();
         var currUser = {
             userid: rows[0].id,
+            username: rows[0].username,
             //set to 7 days expiration
             expire: 10080 * 60
         };
