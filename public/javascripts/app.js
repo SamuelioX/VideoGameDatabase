@@ -1,6 +1,5 @@
 var app = angular.module("app", ['ngAnimate', 'ngMaterial', 'ngSanitize', 'ui.bootstrap']);
 
-var userId = null;
 app.config(['$locationProvider', function ($locationProvider) {
         $locationProvider.html5Mode({
             enabled: true,
@@ -8,7 +7,21 @@ app.config(['$locationProvider', function ($locationProvider) {
         });
     }]);
 
-app.controller('loginCtrl', function ($scope, $window, $http) {
+app.factory('userIdFactory', function(){
+    var userId = null;
+    var factory = {};
+    
+    factory.setId = function(id){
+        userId = id;
+    };
+    
+    factory.getId = function(){
+        return userId;
+    };
+    return factory;
+});
+
+app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
     $scope.isNavCollapsed = true;
     $scope.isCollapsed = true;
     $scope.isCollapsedHorizontal = false;
@@ -16,7 +29,7 @@ app.controller('loginCtrl', function ($scope, $window, $http) {
 //    console.log($window.sessionStorage.token.length > 0);
     $scope.goToLogin = function () {
         $window.location.href = '/login.html';
-    }
+    };
     $scope.login = function () {
         var user = {
             username: $scope.username,
@@ -45,7 +58,8 @@ app.controller('loginCtrl', function ($scope, $window, $http) {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
                 $scope.signedIn = true;
-                $scope.userId = response.data.userid;
+                userIdFactory.setId($scope.userId);
+                $scope.userId = userIdFactory.getId();
             });
         } else {
             $scope.signedIn = false;
@@ -58,7 +72,7 @@ app.controller('loginCtrl', function ($scope, $window, $http) {
     };
 });
 
-app.controller('autoCompleteCtrl', function ($scope, $http, $window, $timeout, $q, $log) {
+app.controller('autoCompleteCtrl', function ($scope, $http, $window, $log) {
     $scope.goToDetailedPage = function (id) {
 //        <a ng-href="detailedPage.html?id={{r.id}}" target="_self">{{r.name}}</a>
         $window.location.href = '/detailedPage.html?id=' + id;
@@ -141,13 +155,13 @@ app.controller('registerAcctCtrl', function ($scope, $window, $http) {
         });
     };
 });
-app.controller("detailedGameCtrl", function ($scope, $http, $location) {
+app.controller("detailedGameCtrl", function ($scope, $http, $location, userIdFactory) {
     $scope.getDetailedPage = function () {
         var loc = $location.search();
         var id = $location.search().id;
 //        userId = $scope.userId;
         var searchInfo = {
-            userId: userId,
+            userId: userIdFactory.getId(),
             gameId: id
         };
         //getting game info
@@ -181,12 +195,12 @@ app.controller("searchCtrl", function ($scope, $http) {
         });
     };
 });
-app.controller("detailedProfileCtrl", function ($scope, $window, $http, $location) {
+app.controller("detailedProfileCtrl", function ($rootScope, $scope, $window, $http, $location) {
     $scope.getDetailedProfile = function () {
         if ($window.sessionStorage.token) {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
-                userId = response.data.userid;
-                getDetails(userId);
+                $rootScope.userId = response.data.userid;
+                getDetails($rootScope.userId);
             });
         } else {
             $scope.response = "there are no tokens";
