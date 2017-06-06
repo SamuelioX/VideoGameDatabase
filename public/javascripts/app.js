@@ -53,12 +53,13 @@ app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
     };
 
     $scope.checkToken = function () {
-//        console.log($window.sessionStorage);
+        console.log($window.sessionStorage);
         if ($window.sessionStorage.token != "null") {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
                 $scope.signedIn = true;
-                userIdFactory.setId($scope.userId);
+                userIdFactory.setId(response.data.userid);
+                console.log(userIdFactory.getId() + " here userId");
                 $scope.userId = userIdFactory.getId();
             });
         } else {
@@ -160,6 +161,7 @@ app.controller("detailedGameCtrl", function ($scope, $http, $location, userIdFac
         var loc = $location.search();
         var id = $location.search().id;
 //        userId = $scope.userId;
+        console.log(userIdFactory.getId() + " userId");
         var searchInfo = {
             userId: userIdFactory.getId(),
             gameId: id
@@ -195,12 +197,12 @@ app.controller("searchCtrl", function ($scope, $http) {
         });
     };
 });
-app.controller("detailedProfileCtrl", function ($rootScope, $scope, $window, $http, $location) {
+app.controller("detailedProfileCtrl", function ($scope, $window, $http, $location) {
     $scope.getDetailedProfile = function () {
         if ($window.sessionStorage.token) {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
-                $rootScope.userId = response.data.userid;
-                getDetails($rootScope.userId);
+                $scope.userId = response.data.userid;
+                getDetails($scope.userId);
             });
         } else {
             $scope.response = "there are no tokens";
