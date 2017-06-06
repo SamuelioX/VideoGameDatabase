@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
@@ -22,39 +17,22 @@ and open the template in the editor.
 
     </head>
 
+
     <body>
         <div ng-app="app">
-
-            <div id="header-menu">
-                <div  ng-include src="'htm/login.html'"></div>
-            </div>
+<!--            <div id="header-menu">
+                <div ng-include src="'htm/login.html'"></div>
+            </div>-->
             <div id="contentwrapper">
                 <div id="content">
 
                     <div ng-include src="'htm/navbar.html'"></div>
-                    <!--<div ng-include src="'htm/register.html'"></div>-->
-                    <div ng-controller="detailedProfileCtrl"  ng-init="getDetailedProfile()">
-
-                        <div class="col-md-12">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    Username: {{username}}
-                                </div>
-                                <div class="form-group">
-                                    Join Date: {{user_join_date}}
-                                </div>
-                                <div class="form-group">
-                                    E-mail: {{email}}
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                    <div ng-include src="'htm/loginForm.html'"></div>
+<!--                    <div ng-include src="'htm/login.html'"></div>-->
                 </div>
-                <!--                <div ng-include src="'htm/autoComplete.html'"></div>-->
+<!--                <div ng-include src="'htm/autoComplete.html'"></div>-->
             </div>
-
+            
         </div>
-
     </body>
 </html>

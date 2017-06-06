@@ -33,9 +33,11 @@ app.use('/getAllGameReviews', require('./routes/getAllGameReviews'));
 app.use('/getAllUserReviews', require('./routes/getAllUserReviews'));
 app.use('/getGameSystemList', require('./routes/getGameSystemList'));
 app.use('/getUserDetails', require('./routes/getUserDetails'));
+app.use('/getUserGameStatus', require('./routes/getUserGameStatus'));
 app.use('/register', require('./routes/register'));
 app.use('/loginAuth', require('./routes/loginAuth'));
 app.use('/verifyToken', require('./routes/verifyToken'));
+app.use('/scape', require('./routes/scape'));
 
 //app.use('/', index);
 //app.use('/users', users);

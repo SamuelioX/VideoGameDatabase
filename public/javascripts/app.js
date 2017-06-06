@@ -1,6 +1,6 @@
 var app = angular.module("app", ['ngAnimate', 'ngMaterial', 'ngSanitize', 'ui.bootstrap']);
 
-
+var userId = null;
 app.config(['$locationProvider', function ($locationProvider) {
         $locationProvider.html5Mode({
             enabled: true,
@@ -14,6 +14,9 @@ app.controller('loginCtrl', function ($scope, $window, $http) {
     $scope.isCollapsedHorizontal = false;
 //    console.log($window.sessionStorage);
 //    console.log($window.sessionStorage.token.length > 0);
+    $scope.goToLogin = function () {
+        $window.location.href = '/login.html';
+    }
     $scope.login = function () {
         var user = {
             username: $scope.username,
@@ -31,12 +34,6 @@ app.controller('loginCtrl', function ($scope, $window, $http) {
                 $window.location.href = '/profile.html';
             }
         });
-//                .error(function (data, status, headers, config) {
-//            // Erase the token if the user fails to log in
-//            delete $window.sessionStorage.token;
-//            // Handle login errors here
-//            $scope.message = 'Error: Invalid user or password';
-//        });
     };
     $scope.register = function () {
         $window.location.href = '/register.html';
@@ -45,14 +42,14 @@ app.controller('loginCtrl', function ($scope, $window, $http) {
     $scope.checkToken = function () {
 //        console.log($window.sessionStorage);
         if ($window.sessionStorage.token != "null") {
-            console.log("test");
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
-//                console.log(false);
                 $scope.username = response.data.username;
                 $scope.signedIn = true;
+                $scope.userId = response.data.userid;
             });
         } else {
             $scope.signedIn = false;
+            $scope.userId = null;
         }
     };
     $scope.logout = function () {
@@ -148,12 +145,33 @@ app.controller("detailedGameCtrl", function ($scope, $http, $location) {
     $scope.getDetailedPage = function () {
         var loc = $location.search();
         var id = $location.search().id;
+//        userId = $scope.userId;
+        var searchInfo = {
+            userId: userId,
+            gameId: id
+        };
+        //getting game info
+        var endpoint = "/getGameInfo?gameId=" + id;
+        $http.get(endpoint).then(function (response) {
+            $scope.response = response.data;
+        });
+        //getting user info on game
+        $http.post('/getUserGameStatus', searchInfo).then(function (response) {
+            $scope.status = response.data;
+        });
+    };
+});
+app.controller("detailedCompanyCtrl", function ($scope, $http, $location) {
+    $scope.getDetailedPage = function () {
+        var loc = $location.search();
+        var id = $location.search().id;
         var endpoint = "/getGameInfo?gameId=" + id;
         $http.get(endpoint).then(function (response) {
             $scope.response = response.data;
         });
     };
 });
+
 app.controller("searchCtrl", function ($scope, $http) {
     var name = $scope.gamename;
     $scope.searchGame = function (name) {
@@ -167,7 +185,7 @@ app.controller("detailedProfileCtrl", function ($scope, $window, $http, $locatio
     $scope.getDetailedProfile = function () {
         if ($window.sessionStorage.token) {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
-                var userId = response.data.userid;
+                userId = response.data.userid;
                 getDetails(userId);
             });
         } else {
