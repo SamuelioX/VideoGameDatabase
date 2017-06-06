@@ -7,10 +7,105 @@ and open the template in the editor.
     Created on : May 23, 2017, 8:23:54 PM
     Author     : samueliox
 */
+/*
+*/
+.navbar-ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.navbar-li {
+    float: left;
+}
+li a {
+    
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
 
 .horizontal-collapse {
     height: 70px;
 }
 .navbar-collapse.in {
     overflow-y: hidden;
+}
+.search{
+    padding: 10px 16px;
+}
+
+#wrapper {
+    display: inline-block;
+}
+
+#leftside{
+    float: left;
+    width: 20%;
+}
+#rightside{
+    float: right;
+    width: 20%;
+}
+#content{
+    /*display: table;*/
+    text-align: center;
+    background-color: #FFFFFF;
+    margin-left: auto; 
+    margin-right: auto; 
+    /*width: 80%;*/
+    color: #000066;
+    min-width: 850px;
+    max-width: 900px;
+    /*    padding-left:100px;
+        padding-right:100px;*/
+    padding-bottom: 10px;
+    /*border: 1px solid #000000;*/
+}
+#header-menu{
+    /*display: table;*/
+    /*text-align: right;*/
+    background-color: #FFFFFF;
+    margin-left: auto; 
+    margin-right: auto; 
+    /*width: 80%;*/
+    color: #000066;
+    min-width: 850px;
+    max-width: 900px;
+    /*    padding-left:100px;
+        padding-right:100px;*/
+    padding-bottom: 10px;
+    /*border: 1px solid #000000;*/
+}
+#header-login-menu{
+    padding-top: 20px;
+    display:block
+}
+
+.autocomplete-custom-template li {
+    border-bottom: 1px solid #ccc;
+    height: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    white-space: normal;
+}
+.autocomplete-custom-template li:last-child {
+    border-bottom-width: 0;
+}
+.autocomplete-custom-template .item-title,
+.autocomplete-custom-template .item-metadata {
+    display: block;
+    line-height: 2;
+}
+.autocomplete-custom-template .item-title md-icon {
+    height: 18px;
+    width: 18px;
 }

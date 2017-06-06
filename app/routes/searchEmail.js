@@ -12,22 +12,21 @@ var mysql = require('mysql');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    var searchName = req.query.gamename;
-    searchGame(searchName, function (data) {
+    var search = req.query.email;
+    searchEmail(search, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
     });
 });
 
-function searchGame(searchName, callback) {
+function searchEmail(searchEmail, callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data
 
     //table concats system type by '
-    var userQuery = "SELECT video_game_info.name, video_game_info.id " +
-            "FROM video_game_info WHERE video_game_info.name LIKE " + 
-            mysql.escape('%' + searchName + '%') + ";";
+    var userQuery = "SELECT username, email " +
+            "FROM user WHERE user.email = " + mysql.escape(searchEmail) + ";";
 //    var userQuery = "SELECT * FROM video_game_info";
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {
@@ -37,8 +36,7 @@ function searchGame(searchName, callback) {
             return;
         }
         db.get().end();
-        callback(rows);
-
+        callback({"available": (rows.length < 1)});
     });
 
 }

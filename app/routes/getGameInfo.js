@@ -31,11 +31,24 @@ function getGameInfo(gameId, callback) {
     // # get user data
 
     //table concats system type by '
-    var userQuery = "SELECT video_game_info.*, group_concat(system_info.name) AS 'system' FROM video_game_info " +
+    var userQuery =
+            "SELECT video_game_info.*, group_concat(system_info.name) AS 'system', " +
+            "system_info.id AS 'system ID', " +
+            "company.name AS 'developer', " +
+            "comp.name AS 'publisher', " +
+            "group_concat(genre_info.genre) AS 'genre' " +
+            "FROM video_game_info " +
             "LEFT JOIN game_system on video_game_info.id = game_system.game_id " +
             "LEFT JOIN system_info on system_info.id = game_system.system_id " +
+            "LEFT JOIN game_developer on video_game_info.id = game_developer.game_id " +
+            "LEFT JOIN game_publisher on video_game_info.id = game_publisher.game_id " +
+            "LEFT JOIN game_genre on video_game_info.id = game_genre.game_id " +
+            "LEFT JOIN company on company.id = game_developer.company_id " +
+            "LEFT JOIN company as comp on comp.id = game_publisher.company_id " +
+            "LEFT JOIN genre_info on genre_info.id = game_genre.genre_id " +
             "WHERE video_game_info.id = " + gameId + " " +
             "GROUP BY video_game_info.id;";
+//    console.log(userQuery);
 //    var userQuery = "SELECT * FROM video_game_info WHERE id = " + gameId;
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {
@@ -46,14 +59,25 @@ function getGameInfo(gameId, callback) {
         }
 
         rows.forEach(function (row) {
-            if (row.system !== null) {
+            if (row.system !== null ) {
+//                console.log(row.system);
                 row.system_list = row.system.toString().split(',').map(function (value) {
-                    return {system: String(value)};
+                    return {system_system: String(value)};
                 });
             } else {
                 row.system_list = [];
             }
             delete row.system;
+        });
+        rows.forEach(function (row) {
+            if (row.genre !== null) {
+                row.genre = row.genre.toString().split(',').map(function (value) {
+                    return {genre: String(value)};
+                });
+            } else {
+                row.genre = [];
+            }
+            delete row.genre;
         });
         db.get().end();
         callback(rows[0]);
