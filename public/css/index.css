@@ -21,11 +21,10 @@ and open the template in the editor.
     float: left;
 }
 li a {
-    
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 10px 20px;
     text-decoration: none;
 }
 
@@ -82,12 +81,20 @@ li a:hover {
     max-width: 900px;
     /*    padding-left:100px;
         padding-right:100px;*/
-    padding-bottom: 10px;
+    /*padding-bottom: 10px;*/
     /*border: 1px solid #000000;*/
 }
+#headerSmall{
+    display: inline-block;
+}
 #header-login-menu{
-    padding-top: 20px;
-    display:block
+    /*padding-top: 20px;*/
+    padding-right: 300px;
+    display:inline-block;
+    padding: 0;
+}
+#login-buttons{
+    margin-right: auto;
 }
 
 .autocomplete-custom-template li {
@@ -108,4 +115,7 @@ li a:hover {
 .autocomplete-custom-template .item-title md-icon {
     height: 18px;
     width: 18px;
+}
+#banner-link:hover{
+    text-decoration: none;
 }

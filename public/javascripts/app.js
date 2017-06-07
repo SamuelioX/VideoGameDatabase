@@ -7,15 +7,16 @@ app.config(['$locationProvider', function ($locationProvider) {
         });
     }]);
 
-app.factory('userIdFactory', function(){
+app.factory('userIdFactory', function () {
     var userId = null;
+    var test = 0;
     var factory = {};
-    
-    factory.setId = function(id){
+
+    factory.setId = function (id) {
         userId = id;
     };
-    
-    factory.getId = function(){
+
+    factory.getId = function () {
         return userId;
     };
     return factory;
@@ -53,13 +54,12 @@ app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
     };
 
     $scope.checkToken = function () {
-        console.log($window.sessionStorage);
+//        console.log($window.sessionStorage);
         if ($window.sessionStorage.token != "null") {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
                 $scope.signedIn = true;
                 userIdFactory.setId(response.data.userid);
-                console.log(userIdFactory.getId() + " here userId");
                 $scope.userId = userIdFactory.getId();
             });
         } else {
@@ -73,8 +73,8 @@ app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
     };
 });
 
-app.controller('autoCompleteCtrl', function ($scope, $http, $window, $log) {
-    $scope.goToDetailedPage = function (id) {
+app.controller('autoCompleteCtrl', function ($scope, $http, $window, $log, userIdFactory) {
+    $scope.goToDetailedPage = function (id, userId) {
 //        <a ng-href="detailedPage.html?id={{r.id}}" target="_self">{{r.name}}</a>
         $window.location.href = '/detailedPage.html?id=' + id;
     };
@@ -85,7 +85,7 @@ app.controller('autoCompleteCtrl', function ($scope, $http, $window, $log) {
     self.querySearch = querySearch;
     self.selectedItemChange = selectedItemChange;
     self.searchTextChange = searchTextChange;
-
+    $scope.userId = userIdFactory.getId();
     // ******************************
     // Internal methods
     // ******************************
@@ -156,25 +156,48 @@ app.controller('registerAcctCtrl', function ($scope, $window, $http) {
         });
     };
 });
-app.controller("detailedGameCtrl", function ($scope, $http, $location, userIdFactory) {
+app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, userIdFactory) {
     $scope.getDetailedPage = function () {
         var loc = $location.search();
         var id = $location.search().id;
-//        userId = $scope.userId;
-        console.log(userIdFactory.getId() + " userId");
-        var searchInfo = {
-            userId: userIdFactory.getId(),
-            gameId: id
-        };
-        //getting game info
-        var endpoint = "/getGameInfo?gameId=" + id;
-        $http.get(endpoint).then(function (response) {
-            $scope.response = response.data;
-        });
-        //getting user info on game
-        $http.post('/getUserGameStatus', searchInfo).then(function (response) {
-            $scope.status = response.data;
-        });
+//        var userId = $location.search().userId;
+//        $location.search({});
+//        console.log($window.sessionStorage.token == null);
+        if ($window.sessionStorage.token !== "null") {
+            $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
+                $scope.username = response.data.username;
+                $scope.signedIn = true;
+                userIdFactory.setId(response.data.userid);
+                $scope.userId = userIdFactory.getId();
+                var searchInfo = {
+                    userId: $scope.userId,
+                    gameId: id
+                };
+                //getting game info
+                var endpoint = "/getGameInfo?gameId=" + id;
+                $http.get(endpoint).then(function (response) {
+                    $scope.response = response.data;
+                    //getting user info on game
+                    $http.post('/getUserGameStatus', searchInfo).then(function (response) {
+                        if (response.data.success == false) {
+                            $scope.status = "You are not logged in";
+                        } else {
+                            console.log(response.data + " response");
+                            $scope.status = response.data == "" ? "you have not rated" : response.data;                            
+                        }
+                    });
+                });
+            });
+        } else {
+            var endpoint = "/getGameInfo?gameId=" + id;
+            $http.get(endpoint).then(function (response) {
+                $scope.response = response.data;
+                //getting user info on game
+                $scope.status = "You are not logged in";
+
+            });
+        }
+
     };
 });
 app.controller("detailedCompanyCtrl", function ($scope, $http, $location) {

@@ -40,7 +40,7 @@ function getUserGameStatus(gameId, userId, callback) {
             "SELECT user_id, game_id, status_id FROM videogame.game_status " +
             "LEFT JOIN status_info on game_status.status_id = status_info.id " +
             "WHERE user_id = " + userId + " AND game_id = " + gameId + ";";
-    console.log(userQuery);
+//    console.log(userQuery);
 //    var userQuery = "SELECT * FROM video_game_info WHERE id = " + gameId;
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {
@@ -50,6 +50,7 @@ function getUserGameStatus(gameId, userId, callback) {
             return;
         }
         db.get().end();
+//        console.log(rows[0]);
         callback(rows[0]);
 
     });

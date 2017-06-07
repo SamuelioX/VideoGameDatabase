@@ -1,30 +1,40 @@
-<div id="header-login-menu" ng-controller="loginCtrl" ng-model="signedIn" ng-model="userId" ng-init="checkToken()">
-    <div ng-show="!signedIn" class="form-group">
-        <!--<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">login</button>-->
-        <!--<div uib-collapse="isCollapsed">-->
-        <!--            <div class="col-md-12">
-                        <form ng-submit="login()" class="form">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" ng-model="username" placeholder="username" required="" />
-                                </div>
-        
-                                <div class="form-group">
-                                    <input type="password" class="form-control" ng-model="password" placeholder="password" required="" />
-                                </div>-->
+<div id="headerSmall">
+    <div ng-controller="loginCtrl" ng-model="signedIn" ng-model="userId" ng-init="checkToken()">
+        <div ng-show="!signedIn" class="form-group">
+            <a id="banner-link" ng-href="/" target="_self">
+                <img src="./images/logo.png" alt="Logo" >
+            </a>
+            <!--<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">login</button>-->
+            <!--<div uib-collapse="isCollapsed">-->
+            <!--            <div class="col-md-12">
+                            <form ng-submit="login()" class="form">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" ng-model="username" placeholder="username" required="" />
+                                    </div>
+            
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" ng-model="password" placeholder="password" required="" />
+                                    </div>-->
 
-        <!--<button type="submit" class="btn btn-success" >Login</button>-->
-        <!--<span class="text-danger">{{ error}}</span>-->
-        <!--<button type="button" class="btn btn-success" ng-click="register()">Register</button>-->
+            <!--<button type="submit" class="btn btn-success" >Login</button>-->
+            <!--<span class="text-danger">{{ error}}</span>-->
+            <!--<button type="button" class="btn btn-success" ng-click="register()">Register</button>-->
 
-        <!--                    </div>
-                        </form>-->
-        <!--</div>-->
-        <button type="button" class="btn btn" ng-click="goToLogin()">login</button>
-        <button type="button" class="btn btn-success" ng-click="register()">Register</button>
-    </div>
-    <div ng-show="signedIn" class="form-group">
-        <button type="button" class="btn btn-success" ng-click="logout()">logout</button>
+            <!--                    </div>
+                            </form>-->
+            <!--</div>-->
+            <div id="header-login-menu" >
+                <button type="button" class="btn btn" ng-click="goToLogin()">login</button>
+                <button type="button" class="btn btn-success" ng-click="register()">Register</button>
+            </div>
+        </div>
+        <div id="header-login-menu" ng-show="signedIn" class="form-group">
+            <a ng-href="/" target="_self">
+                <img src="./images/logo.png" alt="Logo" >
+            </a>
+            <button type="button" class="btn btn-success" ng-click="logout()">logout</button>
+        </div>
     </div>
 </div>
 
