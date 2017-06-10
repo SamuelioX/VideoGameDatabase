@@ -79,9 +79,9 @@ function onError(error) {
         throw error;
     }
 
-    var bind = typeof httpsPort === 'string'
-            ? 'Pipe ' + httpsPort
-            : 'Port ' + httpsPort;
+    var bind = typeof httpPort === 'string'
+            ? 'Pipe ' + httpPort
+            : 'Port ' + httpPort;
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
@@ -103,7 +103,7 @@ function onError(error) {
  */
 
 function onListening() {
-    var addr = httpsServer.address();
+    var addr = httpServer.address();
     var bind = typeof addr === 'string'
             ? 'pipe ' + addr
             : 'port ' + addr.port;

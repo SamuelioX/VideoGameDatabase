@@ -1,24 +1,25 @@
-<div ng-controller="detailedGameCtrl">
-    <div ng-model="data" ng-init="getDetailedPage()">
-        <!--                {{data}}-->
-        <!--<button type="button" ng-Click="detailedPage()">Search</button>-->
-        <h1>{{response.name}}</h1>
-        <br>
-        Rating: {{response.rating}}
-        <br>
-        Your Status: {{status}}
-        <br>
-        Developer: {{response.developer}}
-        <br>
-        Publisher: {{response.publisher}}
-        <br>
-        ESRB Rating: {{response.ESRBrating}}
-        <br>
-        Year: {{response.year}}
-        <br>
-        System List: 
-        <div ng-repeat="s in response.system_list">
-            {{s.system}}
-        </div>
+
+<div ng-controller="detailedGameCtrl" ng-model="data" ng-init="getDetailedPage()">
+    <!--                {{data}}-->
+    <!--<button type="button" ng-Click="detailedPage()">Search</button>-->
+    <h1>{{response.name}}</h1>
+    <br>
+    Rating: {{response.rating}}
+    <br>
+    Your Status: {{status}}
+    <br>
+    Developer: {{response.developer}}
+    <br>
+    Publisher: {{response.publisher}}
+    <br>
+    Year: {{response.release_date}}
+    <br>
+    Genre: 
+    <div ng-repeat="s in response.genre_list">
+        {{s.genre}}
+    </div> 
+    System List: 
+    <div ng-repeat="s in response.system_list">
+        {{s.system}}
     </div>
 </div>

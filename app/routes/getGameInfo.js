@@ -59,10 +59,10 @@ function getGameInfo(gameId, callback) {
         }
 
         rows.forEach(function (row) {
-            if (row.system !== null ) {
+            if (row.system !== null) {
 //                console.log(row.system);
                 row.system_list = row.system.toString().split(',').map(function (value) {
-                    return {system_system: String(value)};
+                    return {system: String(value)};
                 });
             } else {
                 row.system_list = [];
@@ -71,19 +71,46 @@ function getGameInfo(gameId, callback) {
         });
         rows.forEach(function (row) {
             if (row.genre !== null) {
-                row.genre = row.genre.toString().split(',').map(function (value) {
+                row.genre_list = row.genre.toString().split(',').map(function (value) {
                     return {genre: String(value)};
                 });
             } else {
-                row.genre = [];
+                row.genre_list = [];
             }
             delete row.genre;
+        });
+        rows.forEach(function (row) {
+            if (row.release_date !== null) {
+                var dateParts = formatDate(row.release_date);
+//                console.log(dateParts);
+//                console.log(new Date(row.release_date));
+                row.release_date = dateParts;
+//                row.release_date = row.release_date.toString().split('-').map(function (value) {
+//                    console.log(value);
+//                    return {release: String(value)};
+//                });
+            }
+//            delete row.release_date;
         });
         db.get().end();
         callback(rows[0]);
 
     });
 
+    function formatDate(date) {
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+
+        return monthNames[monthIndex] + ' ' + day + ', ' + year;
+    }
 }
 
 module.exports = router;

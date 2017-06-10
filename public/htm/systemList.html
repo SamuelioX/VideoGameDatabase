@@ -1,0 +1,8 @@
+<div ng-controller="systemListCtrl">
+    <h1>System List</h1>
+    <div ng-init="getSystemList()">
+        <div ng-repeat="n in systemList">
+            {{n.name}}
+        </div>
+    </div>
+</div>

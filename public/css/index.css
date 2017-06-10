@@ -56,7 +56,7 @@ li a:hover {
 }
 #content{
     /*display: table;*/
-    text-align: center;
+    /*text-align: center;*/
     background-color: #FFFFFF;
     margin-left: auto; 
     margin-right: auto; 
@@ -70,31 +70,24 @@ li a:hover {
     /*border: 1px solid #000000;*/
 }
 #header-menu{
-    /*display: table;*/
-    /*text-align: right;*/
     background-color: #FFFFFF;
-    margin-left: auto; 
-    margin-right: auto; 
-    /*width: 80%;*/
     color: #000066;
-    min-width: 850px;
-    max-width: 900px;
-    /*    padding-left:100px;
-        padding-right:100px;*/
-    /*padding-bottom: 10px;*/
-    /*border: 1px solid #000000;*/
 }
-#headerSmall{
-    display: inline-block;
-}
+
 #header-login-menu{
-    /*padding-top: 20px;*/
-    padding-right: 300px;
-    display:inline-block;
-    padding: 0;
+    float: right;
 }
+
 #login-buttons{
     margin-right: auto;
+}
+
+#banner-link:hover{
+    text-decoration: none;
+}
+
+#banner-link{
+    text-decoration: none;
 }
 
 .autocomplete-custom-template li {
@@ -116,6 +109,7 @@ li a:hover {
     height: 18px;
     width: 18px;
 }
-#banner-link:hover{
-    text-decoration: none;
+h1{
+    padding-top: 5px;
+    text-align: left;
 }

@@ -55,7 +55,7 @@ app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
 
     $scope.checkToken = function () {
 //        console.log($window.sessionStorage);
-        if ($window.sessionStorage.token != "null") {
+        if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
                 $scope.signedIn = true;
@@ -162,8 +162,8 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
         var id = $location.search().id;
 //        var userId = $location.search().userId;
 //        $location.search({});
-//        console.log($window.sessionStorage.token == null);
-        if ($window.sessionStorage.token !== "null") {
+        console.log($window.sessionStorage);
+        if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
                 $scope.signedIn = true;
@@ -182,7 +182,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
                         if (response.data.success == false) {
                             $scope.status = "You are not logged in";
                         } else {
-                            console.log(response.data + " response");
+//                            console.log(response.data + " response");
                             $scope.status = response.data == "" ? "you have not rated" : response.data;                            
                         }
                     });
@@ -222,22 +222,39 @@ app.controller("searchCtrl", function ($scope, $http) {
 });
 app.controller("detailedProfileCtrl", function ($scope, $window, $http, $location) {
     $scope.getDetailedProfile = function () {
-        if ($window.sessionStorage.token) {
+        console.log($window.sessionStorage);
+        if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
+            $scope.signedIn = true;
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.userId = response.data.userid;
+                
                 getDetails($scope.userId);
             });
         } else {
+            $scope.signedIn = false;
             $scope.response = "there are no tokens";
         }
     };
     var getDetails = function (userId) {
         var endpoint = "/getUserDetails?userId=" + userId;
         $http.get(endpoint).then(function (response) {
-            $scope.username = response.data.username;
-            $scope.user_join_date = response.data.user_join_date;
-            $scope.email = response.data.email;
+            $scope.response = response.data;
         });
     };
+});
 
+app.controller('gameListCtrl', function($scope, $http){
+   $scope.getGameList = function(){
+       $http.get('/getGameList').then(function(response){
+           $scope.gameList = response.data;
+       });
+   } ;
+});
+
+app.controller('systemListCtrl', function($scope, $http){
+   $scope.getSystemList = function(){
+       $http.get('/getSystemList').then(function(response){
+           $scope.systemList = response.data;
+       });
+   } ;
 });
