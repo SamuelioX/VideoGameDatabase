@@ -11,7 +11,7 @@ var db = require('../db');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    var userId = req.body.userId;
+    var userId = req.query.userId;
     getUserGameList(userId, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
@@ -26,8 +26,8 @@ function getUserGameList(userId, callback) {
     //table concats system type by '
     var userQuery = "SELECT status_id, game_id, status_info.type, video_game_info.name FROM game_status " +
             "INNER JOIN status_info ON game_status.status_id = status_info.id " +
-            "INNER JOIN video_game_info ON game_status.game_id = video_game_info.id" +
-            "WHERE user_id = " + userId;
+            "INNER JOIN video_game_info ON game_status.game_id = video_game_info.id " +
+            "WHERE user_id = " + userId + ";";
 //    var userQuery = "SELECT * FROM video_game_info";
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {

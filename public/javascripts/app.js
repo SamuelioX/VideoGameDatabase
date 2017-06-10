@@ -183,7 +183,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
                             $scope.status = "You are not logged in";
                         } else {
 //                            console.log(response.data + " response");
-                            $scope.status = response.data == "" ? "you have not rated" : response.data;                            
+                            $scope.status = response.data == "" ? "you have not rated" : response.data;
                         }
                     });
                 });
@@ -227,7 +227,6 @@ app.controller("detailedProfileCtrl", function ($scope, $window, $http, $locatio
             $scope.signedIn = true;
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.userId = response.data.userid;
-                
                 getDetails($scope.userId);
             });
         } else {
@@ -239,22 +238,27 @@ app.controller("detailedProfileCtrl", function ($scope, $window, $http, $locatio
         var endpoint = "/getUserDetails?userId=" + userId;
         $http.get(endpoint).then(function (response) {
             $scope.response = response.data;
+            var userList = "/getUserGameList?userId=" + userId;
+            $http.get(userList).then(function (response) {
+                $scope.userList = response.data;
+            });
+        });
+
+    };
+});
+
+app.controller('gameListCtrl', function ($scope, $http) {
+    $scope.getGameList = function () {
+        $http.get('/getGameList').then(function (response) {
+            $scope.gameList = response.data;
         });
     };
 });
 
-app.controller('gameListCtrl', function($scope, $http){
-   $scope.getGameList = function(){
-       $http.get('/getGameList').then(function(response){
-           $scope.gameList = response.data;
-       });
-   } ;
-});
-
-app.controller('systemListCtrl', function($scope, $http){
-   $scope.getSystemList = function(){
-       $http.get('/getSystemList').then(function(response){
-           $scope.systemList = response.data;
-       });
-   } ;
+app.controller('systemListCtrl', function ($scope, $http) {
+    $scope.getSystemList = function () {
+        $http.get('/getSystemList').then(function (response) {
+            $scope.systemList = response.data;
+        });
+    };
 });
