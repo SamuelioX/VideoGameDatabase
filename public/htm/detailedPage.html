@@ -1,12 +1,13 @@
-
 <div ng-controller="detailedGameCtrl" ng-model="data" ng-init="getDetailedPage()">
-    <!--                {{data}}-->
-    <!--<button type="button" ng-Click="detailedPage()">Search</button>-->
     <h1>{{response.name}}</h1>
     <br>
     Rating: {{response.rating}}
     <br>
-    Your Status: {{status}}
+    <div id='status'>
+        Your Status: {{status.type}}
+        <select class="form-control" ng-model="selectedStatus" ng-options="x for x in status_options"></select>
+        <button type="button" class="btn btn-success" ng-click="submitStatus()">Submit</button>
+    </div>
     <br>
     Developer: {{response.developer}}
     <br>

@@ -9,15 +9,22 @@ app.config(['$locationProvider', function ($locationProvider) {
 
 app.factory('userIdFactory', function () {
     var userId = null;
-    var test = 0;
+    var gameId = null;
     var factory = {};
 
-    factory.setId = function (id) {
+    factory.setUserId = function (id) {
         userId = id;
     };
 
-    factory.getId = function () {
+    factory.getUserId = function () {
         return userId;
+    };
+    factory.setGameId = function (id) {
+        gameId = id;
+    };
+
+    factory.getGameId = function () {
+        return gameId;
     };
     return factory;
 });
@@ -157,6 +164,44 @@ app.controller('registerAcctCtrl', function ($scope, $window, $http) {
     };
 });
 app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, userIdFactory) {
+    $scope.status_options = ["Started", "Completed", "Dropped", "Interested", "Plan to Play"];
+    $scope.submitStatus = function () {
+        var gameId = userIdFactory.getGameId();
+        var userId = userIdFactory.getUserId();
+        console.log(gameId + " gameId " + userId + " userId");
+        var statusId = function () {
+            switch ($scope.selectedStatus) {
+                case "Started":
+                    return 1;
+                    break;
+                case "Completed":
+                    return 2;
+                    break;
+                case "Dropped":
+                    return 3;
+                    break;
+                case "Interested":
+                    return 4;
+                    break;
+                case "Plan to Play":
+                    return 5;
+                    break;
+            }
+        };
+        var searchInfo = {
+            statusId: statusId,
+            gameId: gameId,
+            userId: userId
+        };
+        $http.post('/setUserGameStatus', searchInfo).then(function (response) {
+            if (response.data.success == false) {
+                $scope.status = "You are not logged in";
+            } else {
+//                            console.log(response.data + " response");
+                $scope.status = response.data == "" ? "you have not rated" : response.data;
+            }
+        });
+    };
     $scope.getDetailedPage = function () {
         var loc = $location.search();
         var id = $location.search().id;
@@ -167,8 +212,8 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
                 $scope.signedIn = true;
-                userIdFactory.setId(response.data.userid);
-                $scope.userId = userIdFactory.getId();
+                userIdFactory.setUserId(response.data.userid);
+                $scope.userId = userIdFactory.getUserId();
                 var searchInfo = {
                     userId: $scope.userId,
                     gameId: id

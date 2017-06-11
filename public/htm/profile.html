@@ -14,7 +14,10 @@
                     E-mail: {{response.email}}
                 </div>
                 <div class="form-group">
-                    Games: {{userList}}
+                    <h2>Your Game List:</h2>
+                    <div ng-repeat="s in userList">
+                        {{s.name}} {{s.type}}
+                    </div> 
                 </div>
             </div>
 

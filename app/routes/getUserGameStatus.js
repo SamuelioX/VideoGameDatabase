@@ -37,7 +37,7 @@ function getUserGameStatus(gameId, userId, callback) {
 
     //table concats system type by '
     var userQuery =
-            "SELECT user_id, game_id, status_id FROM videogame.game_status " +
+            "SELECT user_id, game_id, status_id, status_info.type FROM videogame.game_status " +
             "LEFT JOIN status_info on game_status.status_id = status_info.id " +
             "WHERE user_id = " + userId + " AND game_id = " + gameId + ";";
 //    console.log(userQuery);
