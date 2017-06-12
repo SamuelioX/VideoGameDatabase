@@ -29,11 +29,14 @@ app.use('/getGameSystemList', require('./routes/getGameSystemList'));
 app.use('/getUserDetails', require('./routes/getUserDetails'));
 app.use('/getUserGameStatus', require('./routes/getUserGameStatus'));
 app.use('/getUserGameList', require('./routes/getUserGameList'));
+app.use('/getUserGameReview', require('./routes/getUserGameReview'));
 app.use('/register', require('./routes/register'));
 app.use('/searchGame', require('./routes/searchGame'));
 app.use('/searchUser', require('./routes/searchUser'));
 app.use('/searchEmail', require('./routes/searchEmail'));
 app.use('/setUserGameStatus', require('./routes/setUserGameStatus'));
+app.use('/setUserGameReview', require('./routes/setUserGameReview'));
+app.use('/setUserGameRating', require('./routes/setUserGameRating'));
 app.use('/loginAuth', require('./routes/loginAuth'));
 app.use('/verifyToken', require('./routes/verifyToken'));
 

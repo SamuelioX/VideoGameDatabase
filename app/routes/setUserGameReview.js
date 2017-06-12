@@ -14,14 +14,15 @@ var router = express.Router();
 router.post('/', function (req, res) {
     var userId = req.body.userId;
     var gameId = req.body.gameId;
-    var statusId = req.body.statusId;
-    setUserGameStatus(userId, gameId, statusId, function (data) {
+    var scoreId = req.body.scoreId;
+    var reviewText = req.body.reviewText;
+    setUserGameReview(userId, gameId, scoreId, reviewText, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
     });
 });
 
-function setUserGameStatus(userId, gameId, statusId, callback) {
+function setUserGameReview(userId, gameId, statusId, callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
 //    console.log(user);

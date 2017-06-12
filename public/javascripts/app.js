@@ -66,8 +66,8 @@ app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
                 $scope.signedIn = true;
-                userIdFactory.setId(response.data.userid);
-                $scope.userId = userIdFactory.getId();
+                userIdFactory.setUserId(response.data.userid);
+                $scope.userId = userIdFactory.getUserId();
             });
         } else {
             $scope.signedIn = false;
@@ -92,7 +92,7 @@ app.controller('autoCompleteCtrl', function ($scope, $http, $window, $log, userI
     self.querySearch = querySearch;
     self.selectedItemChange = selectedItemChange;
     self.searchTextChange = searchTextChange;
-    $scope.userId = userIdFactory.getId();
+    $scope.userId = userIdFactory.getUserId();
     // ******************************
     // Internal methods
     // ******************************
@@ -164,50 +164,58 @@ app.controller('registerAcctCtrl', function ($scope, $window, $http) {
     };
 });
 app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, userIdFactory) {
-    $scope.status_options = ["Started", "Completed", "Dropped", "Interested", "Plan to Play"];
+    $scope.status_options = ["Started", "Completed", "Dropped", "Interested", "Plan to Play", "Not Interested"];
+    $scope.score_options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     $scope.submitStatus = function () {
         var gameId = userIdFactory.getGameId();
         var userId = userIdFactory.getUserId();
-        console.log(gameId + " gameId " + userId + " userId");
-        var statusId = function () {
-            switch ($scope.selectedStatus) {
-                case "Started":
-                    return 1;
-                    break;
-                case "Completed":
-                    return 2;
-                    break;
-                case "Dropped":
-                    return 3;
-                    break;
-                case "Interested":
-                    return 4;
-                    break;
-                case "Plan to Play":
-                    return 5;
-                    break;
-            }
-        };
+//        console.log(gameId + " gameId " + userId + " userId");
+        var statusId = $scope.selectedStatus;
+//        console.log(statusId + " statusId");
         var searchInfo = {
             statusId: statusId,
             gameId: gameId,
             userId: userId
         };
         $http.post('/setUserGameStatus', searchInfo).then(function (response) {
-            if (response.data.success == false) {
-                $scope.status = "You are not logged in";
-            } else {
-//                            console.log(response.data + " response");
-                $scope.status = response.data == "" ? "you have not rated" : response.data;
-            }
+            $window.location.reload();
+        });
+    };
+    $scope.submitRating = function () {
+        var gameId = userIdFactory.getGameId();
+        var userId = userIdFactory.getUserId();
+//        console.log(gameId + " gameId " + userId + " userId");
+        var scoreId = $scope.selectedScore + 1;
+//        console.log(statusId + " statusId");
+        var searchInfo = {
+            scoreId: scoreId,
+            gameId: gameId,
+            userId: userId
+        };
+        $http.post('/setUserGameRating', searchInfo).then(function (response) {
+            $window.location.reload();
+        });
+    };
+    $scope.submitReview = function () {
+        var gameId = userIdFactory.getGameId();
+        var userId = userIdFactory.getUserId();
+        console.log(gameId + " gameId " + userId + " userId");
+        var scoreId = $scope.selectedScore;
+        var reviewText = $scope.reviewText;
+//        console.log(statusId + " statusId");
+        var searchInfo = {
+            scoreId: scoreId,
+            gameId: gameId,
+            userId: userId,
+            reviewText: reviewText
+        };
+        $http.post('/setUserGameReview', searchInfo).then(function (response) {
+            $window.location.reload();
         });
     };
     $scope.getDetailedPage = function () {
-        var loc = $location.search();
         var id = $location.search().id;
-//        var userId = $location.search().userId;
-//        $location.search({});
-        console.log($window.sessionStorage);
+        userIdFactory.setGameId(id);
         if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
@@ -230,7 +238,16 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
 //                            console.log(response.data + " response");
                             $scope.status = response.data == "" ? "you have not rated" : response.data;
                         }
+                        $http.post('/getUserGameReview', searchInfo).then(function (response) {
+                            if (response.data.success == false) {
+                                $scope.rating = "You are not logged in";
+                            } else {
+//                            console.log(response.data + " response");
+                                $scope.rating = response.data == "" ? "you have not rated" : response.data;
+                            }
+                        });
                     });
+
                 });
             });
         } else {
@@ -267,7 +284,6 @@ app.controller("searchCtrl", function ($scope, $http) {
 });
 app.controller("detailedProfileCtrl", function ($scope, $window, $http, $location) {
     $scope.getDetailedProfile = function () {
-        console.log($window.sessionStorage);
         if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
             $scope.signedIn = true;
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {

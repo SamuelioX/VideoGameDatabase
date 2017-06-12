@@ -90,6 +90,9 @@ li a:hover {
     text-decoration: none;
 }
 
+#status{
+    display: inline-block;
+}
 .autocomplete-custom-template li {
     border-bottom: 1px solid #ccc;
     height: auto;

@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <h2>Your Game List:</h2>
                     <div ng-repeat="s in userList">
-                        {{s.name}} {{s.type}}
+                        <a ng-href="detailedPage.html?id={{s.game_id}}" target="_self">{{s.name}}</a> {{s.review_score}} {{s.type}}
                     </div> 
                 </div>
             </div>

@@ -82,18 +82,18 @@ function getGameInfo(gameId, callback) {
         rows.forEach(function (row) {
             if (row.release_date !== null) {
                 var dateParts = formatDate(row.release_date);
-//                console.log(dateParts);
-//                console.log(new Date(row.release_date));
                 row.release_date = dateParts;
-//                row.release_date = row.release_date.toString().split('-').map(function (value) {
-//                    console.log(value);
-//                    return {release: String(value)};
-//                });
             }
-//            delete row.release_date;
         });
-        db.get().end();
-        callback(rows[0]);
+        var totalReviewQuery = "SELECT videogame.review.game_id, Count(*) as 'total_reviews', sum(review_score) as 'total_score'" +
+                "FROM videogame.review WHERE videogame.review.game_id = " + gameId + ";";
+        db.get().query(totalReviewQuery, function (err, reviewRows) {
+            rows[0].total_rating = reviewRows[0].total_reviews;
+            rows[0].avg_score = (reviewRows[0].total_score / reviewRows[0].total_reviews) / 1.00;
+            console.log(rows[0].avg_score);
+            callback(rows[0]);
+        });
+
 
     });
 

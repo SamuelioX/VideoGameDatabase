@@ -14,18 +14,18 @@ var router = express.Router();
 router.post('/', function (req, res) {
     var userId = req.body.userId;
     var gameId = req.body.gameId;
-    var statusId = req.body.statusId;
-    setUserGameStatus(userId, gameId, statusId, function (data) {
+    var scoreId = req.body.scoreId;
+    setUserGameRating(userId, gameId, scoreId, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
     });
 });
 
-function setUserGameStatus(userId, gameId, statusId, callback) {
+function setUserGameRating(userId, gameId, scoreId, callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
 //    console.log(user);
-    var checkCurrentStatusQuery = "SELECT * FROM videogame.game_status " +
+    var checkCurrentStatusQuery = "SELECT * FROM videogame.review " +
             "WHERE user_id = " + userId + " AND game_id = " + gameId + ";";
     db.get().query(checkCurrentStatusQuery, function (err, rows) {
         if (err) {
@@ -35,11 +35,11 @@ function setUserGameStatus(userId, gameId, statusId, callback) {
         }
         var registerQuery = "";
         if (rows.length > 0) {
-            registerQuery = 'UPDATE game_status SET status_id = ' + statusId + " " +
+            registerQuery = 'UPDATE review SET review_score = ' + scoreId + " " +
                     'WHERE user_id = ' + userId + ' AND game_id = ' + gameId + ';';
         } else {
-            registerQuery = 'INSERT INTO game_status (user_id, status_id, game_id) ' +
-                    'VALUES (' + userId + ', + ' + statusId + ', ' + gameId + ');';
+            registerQuery = 'INSERT INTO review (user_id, review_score, game_id) ' +
+                    'VALUES (' + userId + ', + ' + scoreId + ', ' + gameId + ');';
         }
         console.log(registerQuery);
         db.get().query(registerQuery, function (err, rows) {
