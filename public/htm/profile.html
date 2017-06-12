@@ -1,0 +1,30 @@
+<div ng-controller="detailedProfileCtrl" ng-model="signedIn" ng-init="getDetailedProfile()">
+    <div ng-show="signedIn">
+        <h1>Profile</h1>
+        <h2>Welcome Back!</h2>
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <div class="form-group">
+                    Username: {{response.username}}
+                </div>
+                <div class="form-group">
+                    Join Date: {{response.user_join_date}}
+                </div>
+                <div class="form-group">
+                    E-mail: {{response.email}}
+                </div>
+                <div class="form-group">
+                    <h2>Your Game List:</h2>
+                    <div ng-repeat="s in userList">
+                        <a ng-href="detailedPage.html?id={{s.game_id}}" target="_self">{{s.name}}</a> {{s.review_score}} {{s.type}}
+                    </div> 
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div ng-show="!signedIn">
+        Response: {{response}}
+
+    </div>
+</div>

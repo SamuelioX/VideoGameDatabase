@@ -1,6 +1,6 @@
-<div ng-controller="autoCompleteCtrl as ctrl" ng-model="id" layout="column" ng-cloak>
-    <md-content layout-padding layout="column">
-        <form ng-submit="goToDetailedPage(id)">
+<div ng-controller="autoCompleteCtrl as ctrl" ng-model="id" ng-model="userId" layout="column" ng-cloak>
+
+        <form ng-submit="goToDetailedPage(id, userId)">
 <!--            <p>Use <code>&lt;md-autocomplete&gt;</code> with custom templates to show styled autocomplete results.</p>-->
             <md-autocomplete 
                 md-no-cache="ctrl.noCache"
@@ -29,5 +29,4 @@
                 </md-item-template>
             </md-autocomplete>
         </form>
-    </md-content>
 </div>

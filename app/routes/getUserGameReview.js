@@ -13,13 +13,13 @@ var router = express.Router();
 router.post('/', function (req, res) {
     var gameId = req.body.gameId;
     var userId = req.body.userId;
-    getUserGameStatus(gameId, userId, function (data) {
+    getUserGameReview(gameId, userId, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
     });
 });
 
-function getUserGameStatus(gameId, userId, callback) {
+function getUserGameReview(gameId, userId, callback) {
 //    console.log("Invoked: getGameInfo");
 
     // Check that input is not null
@@ -37,8 +37,7 @@ function getUserGameStatus(gameId, userId, callback) {
 
     //table concats system type by '
     var userQuery =
-            "SELECT user_id, game_id, status_id, status_info.type FROM videogame.game_status " +
-            "LEFT JOIN status_info on game_status.status_id = status_info.id " +
+            "SELECT review_text, review_score FROM videogame.review " +
             "WHERE user_id = " + userId + " AND game_id = " + gameId + ";";
 //    console.log(userQuery);
 //    var userQuery = "SELECT * FROM video_game_info WHERE id = " + gameId;

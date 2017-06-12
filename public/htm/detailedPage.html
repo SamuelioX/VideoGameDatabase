@@ -1,21 +1,48 @@
-<div ng-controller="detailedGameCtrl">
-    <div ng-model="data" ng-init="getDetailedPage()">
-        <!--                {{data}}-->
-        <!--<button type="button" ng-Click="detailedPage()">Search</button>-->
-        <h1>{{response.name}}</h1>
-        <br>
-        Rating: {{response.rating}}
-        <br>
-        Your Status: {{status}}
-        <br>
+<div ng-controller="detailedGameCtrl" ng-model="data" ng-init="getDetailedPage()">
+    <h1>{{response.name}}</h1>
+    <div class="form-group">
+        <div id="status">
+            Rating: {{response.avg_score}} out of {{response.total_rating}} ratings
+        </div>
+    </div>
+    <div class="form-group">
+        <div id="status">
+            Your Rating: {{rating.review_score}}
+            <select ng-model="selectedScore" ng-options="score_options.indexOf(selectedScore) as selectedScore 
+                for selectedScore in score_options"></select>
+            <button type="button"  ng-click="submitRating()">Submit</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div id="status">
+            Your Status: {{status.type}}
+            <select ng-model="selectedStatus" ng-options="status_options.indexOf(selectedStatus) +  1 as selectedStatus
+                for selectedStatus in status_options"></select>
+            <button type="button"  ng-click="submitStatus()">Submit</button>
+        </div>
+    </div>
+    
+    <div class="form-group">
         Developer: {{response.developer}}
-        <br>
+    </div>
+    
+    <div class="form-group">
         Publisher: {{response.publisher}}
-        <br>
-        ESRB Rating: {{response.ESRBrating}}
-        <br>
-        Year: {{response.year}}
-        <br>
+    </div>
+
+    <div class="form-group">
+        Year: {{response.release_date}}
+    </div>
+
+    <div class="form-group">
+        Genre: 
+        <div ng-repeat="s in response.genre_list">
+            {{s.genre}}
+        </div> 
+    </div>
+
+    <div class="form-group">
         System List: 
         <div ng-repeat="s in response.system_list">
             {{s.system}}

@@ -11,20 +11,20 @@ var db = require('../db');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    getGameList(function (data) {
+    getSystemList(function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
     });
 });
 
-function getGameList(callback) {
+function getSystemList(callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data
 
     //table concats system type by '
-    var userQuery = "SELECT id, name " +
-            "FROM video_game_info;";
+    var userQuery = "SELECT name " +
+            "FROM system_info;";
 //    var userQuery = "SELECT * FROM video_game_info";
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {

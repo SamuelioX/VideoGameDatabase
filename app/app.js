@@ -4,9 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var jwt = require('jwt-simple');
-//var index = require('./routes/index');
-//var users = require('./routes/users');
 
 var app = express();
 
@@ -22,22 +19,26 @@ app.use(cookieParser());
 app.use(require('less-middleware')('./public'));
 app.use(express.static('./public'));
 
-app.use('/addGame', require('./routes/addGame'));
 app.use('/getGameList', require('./routes/getGameList'));
 app.use('/getGameInfo', require('./routes/getGameInfo'));
 app.use('/getUserList', require('./routes/getUserList'));
-app.use('/searchGame', require('./routes/searchGame'));
-app.use('/searchUser', require('./routes/searchUser'));
-app.use('/searchEmail', require('./routes/searchEmail'));
 app.use('/getAllGameReviews', require('./routes/getAllGameReviews'));
 app.use('/getAllUserReviews', require('./routes/getAllUserReviews'));
+app.use('/getSystemList', require('./routes/getSystemList'));
 app.use('/getGameSystemList', require('./routes/getGameSystemList'));
 app.use('/getUserDetails', require('./routes/getUserDetails'));
 app.use('/getUserGameStatus', require('./routes/getUserGameStatus'));
+app.use('/getUserGameList', require('./routes/getUserGameList'));
+app.use('/getUserGameReview', require('./routes/getUserGameReview'));
 app.use('/register', require('./routes/register'));
+app.use('/searchGame', require('./routes/searchGame'));
+app.use('/searchUser', require('./routes/searchUser'));
+app.use('/searchEmail', require('./routes/searchEmail'));
+app.use('/setUserGameStatus', require('./routes/setUserGameStatus'));
+app.use('/setUserGameReview', require('./routes/setUserGameReview'));
+app.use('/setUserGameRating', require('./routes/setUserGameRating'));
 app.use('/loginAuth', require('./routes/loginAuth'));
 app.use('/verifyToken', require('./routes/verifyToken'));
-app.use('/scape', require('./routes/scape'));
 
 //app.use('/', index);
 //app.use('/users', users);
@@ -61,7 +62,7 @@ app.use(function(err, req, res, next) {
 });
 
 //setting jwt token
-//app.set('jwtTokenSecret', process.env.AWS_SECRET_KEY);
+//app.set('jwtTokenSecret', process.env.AWS_SECRET_ACCESS_KEY);
 app.set('jwtTokenSecret', 'token');
 
 module.exports = app;

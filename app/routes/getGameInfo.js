@@ -59,10 +59,10 @@ function getGameInfo(gameId, callback) {
         }
 
         rows.forEach(function (row) {
-            if (row.system !== null ) {
+            if (row.system !== null) {
 //                console.log(row.system);
                 row.system_list = row.system.toString().split(',').map(function (value) {
-                    return {system_system: String(value)};
+                    return {system: String(value)};
                 });
             } else {
                 row.system_list = [];
@@ -71,19 +71,46 @@ function getGameInfo(gameId, callback) {
         });
         rows.forEach(function (row) {
             if (row.genre !== null) {
-                row.genre = row.genre.toString().split(',').map(function (value) {
+                row.genre_list = row.genre.toString().split(',').map(function (value) {
                     return {genre: String(value)};
                 });
             } else {
-                row.genre = [];
+                row.genre_list = [];
             }
             delete row.genre;
         });
-        db.get().end();
-        callback(rows[0]);
+        rows.forEach(function (row) {
+            if (row.release_date !== null) {
+                var dateParts = formatDate(row.release_date);
+                row.release_date = dateParts;
+            }
+        });
+        var totalReviewQuery = "SELECT videogame.review.game_id, Count(*) as 'total_reviews', sum(review_score) as 'total_score'" +
+                "FROM videogame.review WHERE videogame.review.game_id = " + gameId + ";";
+        db.get().query(totalReviewQuery, function (err, reviewRows) {
+            rows[0].total_rating = reviewRows[0].total_reviews;
+            rows[0].avg_score = (reviewRows[0].total_score / reviewRows[0].total_reviews) / 1.00;
+            console.log(rows[0].avg_score);
+            callback(rows[0]);
+        });
+
 
     });
 
+    function formatDate(date) {
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+
+        return monthNames[monthIndex] + ' ' + day + ', ' + year;
+    }
 }
 
 module.exports = router;

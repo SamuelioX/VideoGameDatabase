@@ -21,11 +21,10 @@ and open the template in the editor.
     float: left;
 }
 li a {
-    
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 10px 20px;
     text-decoration: none;
 }
 
@@ -57,7 +56,7 @@ li a:hover {
 }
 #content{
     /*display: table;*/
-    text-align: center;
+    /*text-align: center;*/
     background-color: #FFFFFF;
     margin-left: auto; 
     margin-right: auto; 
@@ -71,25 +70,29 @@ li a:hover {
     /*border: 1px solid #000000;*/
 }
 #header-menu{
-    /*display: table;*/
-    /*text-align: right;*/
     background-color: #FFFFFF;
-    margin-left: auto; 
-    margin-right: auto; 
-    /*width: 80%;*/
     color: #000066;
-    min-width: 850px;
-    max-width: 900px;
-    /*    padding-left:100px;
-        padding-right:100px;*/
-    padding-bottom: 10px;
-    /*border: 1px solid #000000;*/
-}
-#header-login-menu{
-    padding-top: 20px;
-    display:block
 }
 
+#header-login-menu{
+    float: right;
+}
+
+#login-buttons{
+    margin-right: auto;
+}
+
+#banner-link:hover{
+    text-decoration: none;
+}
+
+#banner-link{
+    text-decoration: none;
+}
+
+#status{
+    display: inline-block;
+}
 .autocomplete-custom-template li {
     border-bottom: 1px solid #ccc;
     height: auto;
@@ -108,4 +111,8 @@ li a:hover {
 .autocomplete-custom-template .item-title md-icon {
     height: 18px;
     width: 18px;
+}
+h1{
+    padding-top: 5px;
+    text-align: left;
 }
