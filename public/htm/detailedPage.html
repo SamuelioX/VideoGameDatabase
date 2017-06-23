@@ -1,13 +1,13 @@
 <div ng-controller="detailedGameCtrl" ng-model="data" ng-init="getDetailedPage()">
     <h1>{{response.name}}</h1>
     <div class="form-group">
-        <div id="status">
-            Rating: {{response.avg_score}} out of {{response.total_rating}} ratings
+        <div id="total_rating">
+            Rating: {{response.avg_score}}/10 from {{response.total_rating}} ratings
         </div>
     </div>
     <div class="form-group">
-        <div id="status">
-            Your Rating: {{rating.review_score}}
+        Your Rating: {{rating.review_score}}
+        <div id="rating" ng-show="signedIn">
             <select ng-model="selectedScore" ng-options="score_options.indexOf(selectedScore) as selectedScore 
                 for selectedScore in score_options"></select>
             <button type="button"  ng-click="submitRating()">Submit</button>
@@ -15,18 +15,18 @@
     </div>
 
     <div class="form-group">
-        <div id="status">
-            Your Status: {{status.type}}
-            <select ng-model="selectedStatus" ng-options="status_options.indexOf(selectedStatus) +  1 as selectedStatus
+        Your Status: {{status.type}}
+        <div id="rating" ng-show="signedIn">
+            <select ng-model="selectedStatus" ng-options="status_options.indexOf(selectedStatus) + 1 as selectedStatus
                 for selectedStatus in status_options"></select>
             <button type="button"  ng-click="submitStatus()">Submit</button>
         </div>
     </div>
-    
+
     <div class="form-group">
         Developer: {{response.developer}}
     </div>
-    
+
     <div class="form-group">
         Publisher: {{response.publisher}}
     </div>

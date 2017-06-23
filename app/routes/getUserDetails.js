@@ -22,7 +22,10 @@ function getUserDetails(userId, callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data
-
+    if(userId == null || userId == undefined){
+        callback({"success": false, "message": "there is no user by that name"});
+        return;
+    }
     //table concats system type by '
     var userQuery = "SELECT username, user_join_date, email FROM user " +
             "WHERE user.id = " + userId;

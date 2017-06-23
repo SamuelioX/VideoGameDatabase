@@ -43,13 +43,12 @@ function getUserGameReview(gameId, userId, callback) {
 //    var userQuery = "SELECT * FROM video_game_info WHERE id = " + gameId;
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {
-        if (err) {
+        if (err || rows[0] == undefined) {
             console.log(err);
             callback({"success": false, "message": "something went wrong in the db."});
             return;
         }
         db.get().end();
-//        console.log(rows[0]);
         callback(rows[0]);
 
     });

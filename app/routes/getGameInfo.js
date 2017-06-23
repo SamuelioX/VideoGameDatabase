@@ -90,7 +90,7 @@ function getGameInfo(gameId, callback) {
         db.get().query(totalReviewQuery, function (err, reviewRows) {
             rows[0].total_rating = reviewRows[0].total_reviews;
             rows[0].avg_score = (reviewRows[0].total_score / reviewRows[0].total_reviews) / 1.00;
-            console.log(rows[0].avg_score);
+//            console.log(rows[0].avg_score);
             callback(rows[0]);
         });
 

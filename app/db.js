@@ -16,13 +16,13 @@ var state = {
 // Database connect function
 exports.connect = function (mode) {
     state.pool = mysql.createPool({
-//        host: process.env.RDS_HOSTNAME,
-//        user: process.env.RDS_USERNAME,
-//        password: process.env.RDS_PASSWORD,
-//        port: process.env.RDS_PORT,
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
+        host: process.env.RDS_HOSTNAME || 'localhost',
+        user: process.env.RDS_USERNAME || 'root',
+        password: process.env.RDS_PASSWORD || 'root',
+        port: process.env.RDS_PORT,
+//        host: 'localhost',
+//        user: 'root',
+//        password: 'root',
         database: mode === exports.MODE_PRODUCTION ? PRODUCTION_DB : DEVELOPMENT_DB
                 // socketPath: '/var/run/mysqld/mysqld.sock'
     });

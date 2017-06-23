@@ -28,7 +28,7 @@ function getUserGameList(userId, callback) {
             "INNER JOIN status_info ON game_status.status_id = status_info.id " +
             "INNER JOIN video_game_info ON game_status.game_id = video_game_info.id " +
             "INNER JOIN review ON review.game_id = video_game_info.id " +
-            "WHERE game_status.user_id = " + userId + ";";
+            "WHERE review.user_id = " + userId + ";";
 //    var userQuery = "SELECT * FROM video_game_info";
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {
