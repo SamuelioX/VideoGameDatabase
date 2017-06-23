@@ -51,8 +51,8 @@ function authorizeAccount(user, callback) {
         };
         var hashedPass = sha512(password, rows[0].salt);
         if(hashedPass.passwordHash == rows[0].password){
-//            var token = jwt.encode(currUser, process.env.AWS_TOKEN_SECRET);
-            var token = jwt.encode(currUser, 'token');
+            var token = jwt.encode(currUser, process.env.AWS_TOKEN_SECRET);
+//            var token = jwt.encode(currUser, 'token');
             callback({"success": true, "token": token});
         } else {
             callback({"success": false});
