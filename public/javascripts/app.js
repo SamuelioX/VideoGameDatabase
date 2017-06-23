@@ -189,8 +189,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
         if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
-                $scope.signedIn = userIdFactory.getSignedInStatus();
-                userIdFactory.setUserId(response.data.userid);
+
                 $scope.userId = userIdFactory.getUserId();
                 var searchInfo = {
                     userId: $scope.userId,
@@ -204,7 +203,8 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
                     $http.post('/getUserGameStatus', searchInfo).then(function (response) {
                         $scope.status = response.data.success == false ? {type: "you have not rated"} : response.data;
                         $http.post('/getUserGameReview', searchInfo).then(function (response) {
-                            console.log(response.data.success);
+                            $scope.signedIn = userIdFactory.getSignedInStatus();
+                            userIdFactory.setUserId(response.data.userid);
                             $scope.rating = response.data.success == false ? {review_score: "you have not rated"} : response.data;
                         });
                     });
@@ -214,11 +214,12 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
         } else {
             var endpoint = "/getGameInfo?gameId=" + id;
             $http.get(endpoint).then(function (response) {
-                $scope.signedIn = userIdFactory.getSignedInStatus();
-                $scope.response = response.data;
+                
                 //getting user info on game
                 $scope.status = {type: "you are not logged in"};
                 $scope.rating = {review_score: "you are not logged in"};
+                $scope.response = response.data;
+                $scope.signedIn = userIdFactory.getSignedInStatus();
             });
         }
 
@@ -338,11 +339,9 @@ app.controller("searchCtrl", function ($scope, $http) {
 });
 app.controller("detailedProfileCtrl", function ($scope, $window, $http, $location, userIdFactory) {
     $scope.getDetailedProfile = function () {
-//        console.log(($window.sessionStorage.length > 0) + " check token");
-//        $scope.signedIn = true;
         if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
-//                userIdFactory.setSignedInStatus(true);
+                userIdFactory.setSignedInStatus(true);
                 $scope.signedIn = userIdFactory.getSignedInStatus();
                 $scope.userId = response.data.userid;
                 getDetails($scope.userId);

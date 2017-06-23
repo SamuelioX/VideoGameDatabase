@@ -15,8 +15,8 @@ router.post('/', function (req, res) {
 });
 
 function verifyToken(token, callback) {
-//    var decoded = jwt.decode(token, 'token');
-    var decoded = jwt.decode(token, process.env.AWS_TOKEN_SECRET);
+    var decoded = jwt.decode(token, 'token');
+//    var decoded = jwt.decode(token, process.env.AWS_TOKEN_SECRET);
     callback(decoded);
 }
 module.exports = router;
