@@ -21,34 +21,13 @@ var path = require('path');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-//var httpsPort = normalizePort(process.env.PORT || '443');
-//app.set('port', httpsPort);
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
-//var httpsServer = https.createServer(options, app);
-/**
- * Listen on provided port, on all network interfaces.
- */
 
 server.listen(port);
-//server.on('error', onError);
-//server.on('listening', onListening);
-
-//
-//httpsServer.listen(443);
-//httpsServer.on('error', onError);
-//httpsServer.on('listening', onListening);
-
-// Secure traffic only
-//app.all('*', function(req, res, next){
-//  if (req.secure) {
-//    return next();
-//  };
-// res.redirect('https://'+req.hostname+":"+app.get('port_https')+req.url);
-//});
 
 /**
  * Normalize a port into a number, string, or false.

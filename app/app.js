@@ -62,7 +62,6 @@ app.use(function(err, req, res, next) {
 });
 
 //setting jwt token
-//app.set('jwtTokenSecret', process.env.AWS_SECRET_ACCESS_KEY);
 app.set('jwtTokenSecret', 'token');
 //app.set('jwtTokenSecret', process.env.AWS_TOKEN_SECRET);
 module.exports = app;

@@ -20,8 +20,6 @@ router.post('/', function (req, res) {
 });
 
 function getUserGameStatus(gameId, userId, callback) {
-//    console.log("Invoked: getGameInfo");
-
     // Check that input is not null
     if (gameId == undefined) {
         callback({"success": false, "message": "gameId not supplied, but required."});
@@ -44,13 +42,12 @@ function getUserGameStatus(gameId, userId, callback) {
 //    var userQuery = "SELECT * FROM video_game_info WHERE id = " + gameId;
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {
-        if (err) {
-            console.log(err);
+        if (err || rows[0] == undefined) {
+            console.log(err + " error");
             callback({"success": false, "message": "something went wrong in the db."});
             return;
         }
         db.get().end();
-//        console.log(rows[0]);
         callback(rows[0]);
 
     });
