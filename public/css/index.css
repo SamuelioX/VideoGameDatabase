@@ -54,6 +54,9 @@ li a:hover {
     float: right;
     width: 20%;
 }
+#contentwrapper{
+    background-color: #FFFFFF;
+}
 #content{
     /*display: table;*/
     /*text-align: center;*/
@@ -115,4 +118,15 @@ li a:hover {
 h1{
     padding-top: 5px;
     text-align: left;
+}
+table, th , td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
 }
