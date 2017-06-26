@@ -189,7 +189,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
         if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
             $http.post('/verifyToken', $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
-
+                userIdFactory.setUserId(response.data.userid);
                 $scope.userId = userIdFactory.getUserId();
                 var searchInfo = {
                     userId: $scope.userId,
@@ -204,7 +204,6 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
                         $scope.status = response.data.success == false ? {type: "you have not rated"} : response.data;
                         $http.post('/getUserGameReview', searchInfo).then(function (response) {
                             $scope.signedIn = userIdFactory.getSignedInStatus();
-                            userIdFactory.setUserId(response.data.userid);
                             $scope.rating = response.data.success == false ? {review_score: "you have not rated"} : response.data;
                         });
                     });
@@ -214,7 +213,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
         } else {
             var endpoint = "/getGameInfo?gameId=" + id;
             $http.get(endpoint).then(function (response) {
-                
+
                 //getting user info on game
                 $scope.status = {type: "you are not logged in"};
                 $scope.rating = {review_score: "you are not logged in"};
@@ -224,79 +223,79 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
         }
 
     };
-    $scope.submitStatus = function () {
-        var gameId = userIdFactory.getGameId();
-        var userId = userIdFactory.getUserId();
-//        console.log(gameId + " gameId " + userId + " userId");
-        var statusId = $scope.selectedStatus;
-//        console.log(statusId + " statusId");
-        console.log(gameId);
-        var searchInfo = {
-            statusId: statusId,
-            gameId: gameId,
-            userId: userId
-        };
-        $http.post('/setUserGameStatus', searchInfo).then(function (response) {
-            $window.location.reload();
-        });
-    };
-    $scope.submitRating = function () {
+//    $scope.submitStatus = function () {
+//        var gameId = userIdFactory.getGameId();
+//        var userId = userIdFactory.getUserId();
+////        console.log(gameId + " gameId " + userId + " userId");
+//        var statusId = $scope.selectedStatus;
+////        console.log(statusId + " statusId");
 //        console.log(gameId);
-        var gameId = userIdFactory.getGameId();
-        var userId = userIdFactory.getUserId();
-//        console.log(gameId + " gameId " + userId + " userId");
-        var scoreId = $scope.selectedScore + 1;
-//        console.log(statusId + " statusId");
-        var searchInfo = {
-            scoreId: scoreId,
-            gameId: gameId,
-            userId: userId
-        };
-        $http.post('/setUserGameRating', searchInfo).then(function (response) {
-            console.log(gameId);
-            $window.location.reload();
-        });
-    };
-    $scope.submitReview = function () {
-        var gameId = userIdFactory.getGameId();
-        var userId = userIdFactory.getUserId();
-//        console.log(gameId + " gameId " + userId + " userId");
-        var scoreId = $scope.selectedScore;
-        var reviewText = $scope.reviewText;
-//        console.log(statusId + " statusId");
-        var searchInfo = {
-            scoreId: scoreId,
-            gameId: gameId,
-            userId: userId,
-            reviewText: reviewText
-        };
-        $http.post('/setUserGameReview', searchInfo).then(function (response) {
-            $window.location.reload();
-        });
-    };
-    $scope.submitStatus = function () {
-        var gameId = userIdFactory.getGameId();
-        var userId = userIdFactory.getUserId();
-//        console.log(gameId + " gameId " + userId + " userId");
-        var statusId = $scope.selectedStatus;
-//        console.log(statusId + " statusId");
-        console.log(gameId);
-        var searchInfo = {
-            statusId: statusId,
-            gameId: gameId,
-            userId: userId
-        };
-        $http.post('/setUserGameStatus', searchInfo).then(function (response) {
-            $window.location.reload();
-        });
-    };
+//        var searchInfo = {
+//            statusId: statusId,
+//            gameId: gameId,
+//            userId: userId
+//        };
+//        $http.post('/setUserGameStatus', searchInfo).then(function (response) {
+//            $window.location.reload();
+//        });
+//    };
+//    $scope.submitRating = function () {
+////        console.log(gameId);
+//        var gameId = userIdFactory.getGameId();
+//        var userId = userIdFactory.getUserId();
+////        console.log(gameId + " gameId " + userId + " userId");
+//        var scoreId = $scope.selectedScore + 1;
+////        console.log(statusId + " statusId");
+//        var searchInfo = {
+//            scoreId: scoreId,
+//            gameId: gameId,
+//            userId: userId
+//        };
+//        $http.post('/setUserGameRating', searchInfo).then(function (response) {
+//            console.log(gameId);
+//            $window.location.reload();
+//        });
+//    };
+//    $scope.submitReview = function () {
+//        var gameId = userIdFactory.getGameId();
+//        var userId = userIdFactory.getUserId();
+////        console.log(gameId + " gameId " + userId + " userId");
+//        var scoreId = $scope.selectedScore;
+//        var reviewText = $scope.reviewText;
+////        console.log(statusId + " statusId");
+//        var searchInfo = {
+//            scoreId: scoreId,
+//            gameId: gameId,
+//            userId: userId,
+//            reviewText: reviewText
+//        };
+//        $http.post('/setUserGameReview', searchInfo).then(function (response) {
+//            $window.location.reload();
+//        });
+//    };
+//    $scope.submitStatus = function () {
+//        var gameId = userIdFactory.getGameId();
+//        var userId = userIdFactory.getUserId();
+////        console.log(gameId + " gameId " + userId + " userId");
+//        var statusId = $scope.selectedStatus;
+////        console.log(statusId + " statusId");
+//        console.log(gameId);
+//        var searchInfo = {
+//            statusId: statusId,
+//            gameId: gameId,
+//            userId: userId
+//        };
+//        $http.post('/setUserGameStatus', searchInfo).then(function (response) {
+//            $window.location.reload();
+//        });
+//    };
     $scope.submitStatus = function (gameId) {
         var userId = userIdFactory.getUserId();
         var statusId = $scope.selectedStatus;
-        console.log(gameId);
+        var gameIdEnd = gameId == undefined ? userIdFactory.getGameId() : gameId;
         var searchInfo = {
             statusId: statusId,
-            gameId: gameId,
+            gameId: gameIdEnd,
             userId: userId
         };
         $http.post('/setUserGameStatus', searchInfo).then(function (response) {
@@ -306,12 +305,12 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
     $scope.submitRating = function (gameId) {
         var userId = userIdFactory.getUserId();
         var scoreId = $scope.selectedScore + 1;
+        var gameIdEnd = gameId == undefined ? userIdFactory.getGameId() : gameId;
         var searchInfo = {
-            scoreId: scoreId,
-            gameId: gameId,
-            userId: userId
+            gameId: gameIdEnd,
+            userId: userId,
+            scoreId: scoreId
         };
-        console.log(JSON.stringify(searchInfo));
         $http.post('/setUserGameRating', searchInfo).then(function (response) {
             $window.location.reload();
         });
