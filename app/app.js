@@ -19,29 +19,6 @@ app.use(cookieParser());
 app.use(require('less-middleware')('./public'));
 app.use(express.static('./public'));
 
-app.use('/getGameList', require('./routes/getGameList'));
-app.use('/getGameInfo', require('./routes/getGameInfo'));
-app.use('/getUserList', require('./routes/getUserList'));
-app.use('/getAllGameReviews', require('./routes/getAllGameReviews'));
-app.use('/getAllUserReviews', require('./routes/getAllUserReviews'));
-app.use('/getSystemList', require('./routes/getSystemList'));
-app.use('/getGameSystemList', require('./routes/getGameSystemList'));
-app.use('/getUserDetails', require('./routes/getUserDetails'));
-app.use('/getUserGameStatus', require('./routes/getUserGameStatus'));
-app.use('/getUserGameList', require('./routes/getUserGameList'));
-app.use('/getUserGameReview', require('./routes/getUserGameReview'));
-app.use('/register', require('./routes/register'));
-app.use('/searchGame', require('./routes/searchGame'));
-app.use('/searchUser', require('./routes/searchUser'));
-app.use('/searchEmail', require('./routes/searchEmail'));
-app.use('/setUserGameStatus', require('./routes/setUserGameStatus'));
-app.use('/setUserGameReview', require('./routes/setUserGameReview'));
-app.use('/setUserGameRating', require('./routes/setUserGameRating'));
-app.use('/loginAuth', require('./routes/loginAuth'));
-app.use('/verifyToken', require('./routes/verifyToken'));
-
-//app.use('/', index);
-//app.use('/users', users);
 console.log('Node is installed');
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
