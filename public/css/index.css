@@ -9,6 +9,12 @@ and open the template in the editor.
 */
 /*
 */
+.sortorder:after {
+  content: '\25b2';   // BLACK UP-POINTING TRIANGLE
+}
+.sortorder.reverse:after {
+  content: '\25bc';   // BLACK DOWN-POINTING TRIANGLE
+}
 .navbar-ul {
     list-style-type: none;
     margin: 0;
@@ -129,4 +135,7 @@ table tr:nth-child(odd) {
 }
 table tr:nth-child(even) {
   background-color: #ffffff;
+}
+#body_text {
+    padding-left: 40px;
 }

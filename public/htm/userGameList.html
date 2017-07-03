@@ -2,16 +2,27 @@
 
     <h2>Your Game List:</h2>
     <table>
-        <th>Name</th>
-        <th>Your Rating</th>
-        <th>Your Status</th>
-        <tr ng-controller="detailedGameCtrl" ng-repeat="s in userList">
+
+        <th>
+            <span ng-click="sortBy('name')">Name</span>
+            <span class="sortorder" ng-show="propertyName === 'name'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>
+            <span ng-click="sortBy('review_score')">Your Rating</span>
+            <span class="sortorder" ng-show="propertyName === 'review_score'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>
+            <span ng-click="sortBy('type')">Your Status</span>
+            <span class="sortorder" ng-show="propertyName === 'type'" ng-class="{reverse: reverse}"></span>
+        </th>
+
+        <tr ng-controller="detailedGameCtrl" ng-repeat="s in userList| orderBy:propertyName:reverse">
             <td><a ng-href="detailedPage.html?id={{s.game_id}}" target="_self">{{s.name}}</a></td>
             <td>{{s.review_score}}<select ng-model="selectedScore" ng-options="score_options.indexOf(selectedScore) as selectedScore 
                 for selectedScore in score_options"></select><button type="button"  ng-click="submitRating(s.game_id)">Submit</button></td>
-            <td>{{s.type}}<select ng-model="selectedStatus" ng-options="status_options.indexOf(selectedStatus) +  1 as selectedStatus
+            <td>{{s.type}}<select ng-model="selectedStatus" ng-options="status_options.indexOf(selectedStatus) + 1 as selectedStatus
                 for selectedStatus in status_options"></select><button type="button"  ng-click="submitStatus(s.game_id)">Submit</button></td>
         </tr>
+        
     </table>
-
 </div>
