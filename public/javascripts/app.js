@@ -1,12 +1,13 @@
-var app = angular.module("app", ['ngAnimate', 'ngMaterial', 'ngSanitize', 'ui.bootstrap']);
-
+var app = angular.module("app", ['ngAnimate', 'ngMaterial', 'ngSanitize', 'ngRoute', 'ui.bootstrap']);
+///https://samueliox-trial-prod.apigee.net/vglist
 app.config(['$locationProvider', function ($locationProvider) {
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
         });
     }]);
-//function that adds cors
+
+////function that adds cors
 (function () {
     var cors_api_host = 'cors-anywhere.herokuapp.com';
     var cors_api_url = 'https://' + cors_api_host + '/';
@@ -31,7 +32,7 @@ app.factory('userIdFactory', function () {
     var gameId = null;
     var signedIn = false;
     var factory = {};
-    var APIKEY = "u8DAsSoaoZOOZU2sLGG5MFcYkZTzqd3a";
+    var APIKEY = "K8h0VQ7jVzMO2QPUovIoWAxTb3iGKZMu";
     factory.setUserId = function (id) {
         userId = id;
     };
@@ -67,7 +68,7 @@ app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
     //alert array for when user unsuccesfully logs in
     $scope.alerts = [];
     $scope.goToLogin = function () {
-        $window.location.href = '/login.html';
+        $window.location.href = '/login';
     };
     $scope.login = function () {
         var user = {
@@ -75,7 +76,7 @@ app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
             password: $scope.password
         };
         $scope.user = user;
-        $http.post('https://samueliox-trial-prod.apigee.net/vglist/loginAuth?apikey=' + userIdFactory.getAPIKey(),
+        $http.post('http://samueliox-trial-test.apigee.net/vglistapi/loginAuth?apikey=' + userIdFactory.getAPIKey(),
                 $scope.user).then(function (response) {
             //check if the token is real 
             if (response.data.success == false) {
@@ -92,13 +93,13 @@ app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
         });
     };
     $scope.register = function () {
-        $window.location.href = '/register.html';
+        $window.location.href = '/register';
     };
 
     $scope.checkToken = function () {
 //        console.log($window.sessionStorage);
         if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
-            $http.post('https://samueliox-trial-prod.apigee.net/vglist/verifyToken?apikey=' + userIdFactory.getAPIKey(), $window.sessionStorage).then(function (response) {
+            $http.post('http://samueliox-trial-test.apigee.net/vglistapi/verifyToken?apikey=' + userIdFactory.getAPIKey(), $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
                 userIdFactory.setSignedInStatus(true);
                 $scope.signedIn = userIdFactory.getSignedInStatus();
@@ -125,7 +126,7 @@ app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
 app.controller('autoCompleteCtrl', function ($scope, $http, $window, $log, userIdFactory) {
     $scope.goToDetailedPage = function (id) {
 //        <a ng-href="detailedPage.html?id={{r.id}}" target="_self">{{r.name}}</a>
-        $window.location.href = '/detailedPage.html?id=' + id;
+        $window.location.href = '/game?gameId=' + id;
     };
 
     var self = this;
@@ -144,7 +145,7 @@ app.controller('autoCompleteCtrl', function ($scope, $http, $window, $log, userI
      * remote dataservice call.
      */
     function querySearch(query) {
-        var endpoint = "https://samueliox-trial-prod.apigee.net/vglist/searchGame?gamename=" + query +
+        var endpoint = "http://samueliox-trial-test.apigee.net/vglistapi/searchGame?gamename=" + query +
                 "&apikey=" + userIdFactory.getAPIKey();
         return $http.get(endpoint).then(function (response) {
             return response.data;
@@ -176,7 +177,7 @@ app.controller('autoCompleteCtrl', function ($scope, $http, $window, $log, userI
 app.controller('registerAcctCtrl', function ($scope, $window, $http) {
     $scope.checkDuplicateEmail = function () {
         var email = $scope.email;
-        var endpoint = "https://samueliox-trial-prod.apigee.net/vglist/searchEmail?email=" + email +
+        var endpoint = "http://samueliox-trial-test.apigee.net/vglistapi/searchEmail?email=" + email +
                 "&apikey=" + userIdFactory.getAPIKey();
         $http.get(endpoint).then(function (response) {
 //            console.log(response);
@@ -185,7 +186,7 @@ app.controller('registerAcctCtrl', function ($scope, $window, $http) {
     };
     $scope.checkDuplicateUsername = function () {
         var username = $scope.username;
-        var endpoint = "https://samueliox-trial-prod.apigee.net/vglist/searchUser?username=" + username
+        var endpoint = "http://samueliox-trial-test.apigee.net/vglistapi/searchUser?username=" + username
                 + "&apikey=" + userIdFactory.getAPIKey();
         $http.get(endpoint).then(function (response) {
 //            console.log(response);
@@ -199,7 +200,7 @@ app.controller('registerAcctCtrl', function ($scope, $window, $http) {
             email: $scope.email
         };
         $scope.user = user;
-        $http.post('https://samueliox-trial-prod.apigee.net/vglist/register?apikey=' + userIdFactory.getAPIKey(), $scope.user).then(function (data, status, headers, config) {
+        $http.post('http://samueliox-trial-test.apigee.net/vglistapi/register?apikey=' + userIdFactory.getAPIKey(), $scope.user).then(function (data, status, headers, config) {
 //            $window.sessionStorage.token = data.token;
             $scope.message = 'Welcome';
             $window.location.href = '/';
@@ -210,10 +211,10 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
     $scope.status_options = ["Started", "Completed", "Dropped", "Interested", "Plan to Play", "Not Interested"];
     $scope.score_options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     $scope.getDetailedPage = function () {
-        var id = $location.search().id;
+        var id = $location.search().gameId;
         userIdFactory.setGameId(id);
         if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
-            $http.post('https://samueliox-trial-prod.apigee.net/vglist/verifyToken?apikey=' + userIdFactory.getAPIKey(), $window.sessionStorage).then(function (response) {
+            $http.post('http://samueliox-trial-test.apigee.net/vglistapi/verifyToken?apikey=' + userIdFactory.getAPIKey(), $window.sessionStorage).then(function (response) {
                 $scope.username = response.data.username;
                 userIdFactory.setUserId(response.data.userid);
                 $scope.userId = userIdFactory.getUserId();
@@ -222,14 +223,14 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
                     gameId: id
                 };
                 //getting game info
-                var endpoint = "https://samueliox-trial-prod.apigee.net/vglist/getGameInfo?gameId=" + id
+                var endpoint = "http://samueliox-trial-test.apigee.net/vglistapi/GameInfo?gameId=" + id
                         + "&apikey=" + userIdFactory.getAPIKey();
                 $http.get(endpoint).then(function (response) {
                     $scope.response = response.data;
                     //getting user info on game
-                    $http.post('https://samueliox-trial-prod.apigee.net/vglist/getUserGameStatus?apikey=' + userIdFactory.getAPIKey(), searchInfo).then(function (response) {
+                    $http.get('http://samueliox-trial-test.apigee.net/vglistapi/getUserGameStatus?apikey=' + userIdFactory.getAPIKey(), searchInfo).then(function (response) {
                         $scope.status = response.data.success == false ? {type: "you have not rated"} : response.data;
-                        $http.post('https://samueliox-trial-prod.apigee.net/vglist/getUserGameReview?apikey=' + userIdFactory.getAPIKey(), searchInfo).then(function (response) {
+                        $http.get('http://samueliox-trial-test.apigee.net/vglistapi/getUserGameReview?apikey=' + userIdFactory.getAPIKey(), searchInfo).then(function (response) {
                             $scope.signedIn = userIdFactory.getSignedInStatus();
                             $scope.rating = response.data.success == false ? {review_score: "you have not rated"} : response.data;
                         });
@@ -238,7 +239,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
                 });
             });
         } else {
-            var endpoint = "https://samueliox-trial-prod.apigee.net/vglist/getGameInfo?gameId=" + id
+            var endpoint = "http://samueliox-trial-test.apigee.net/vglistapi/GameInfo?gameId=" + id
                     + "&apikey=" + userIdFactory.getAPIKey();
             $http.get(endpoint).then(function (response) {
 
@@ -265,7 +266,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
             gameId: gameIdEnd,
             userId: userId
         };
-        $http.post('https://samueliox-trial-prod.apigee.net/vglist/setUserGameStatus?apikey=' + userIdFactory.getAPIKey(), searchInfo).then(function (response) {
+        $http.post('http://samueliox-trial-test.apigee.net/vglistapi/UserGameStatus?apikey=' + userIdFactory.getAPIKey(), searchInfo).then(function (response) {
             $window.location.reload();
         });
     };
@@ -278,7 +279,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
             userId: userId,
             scoreId: scoreId
         };
-        $http.post('https://samueliox-trial-prod.apigee.net/vglist/setUserGameRating?apikey=' + userIdFactory.getAPIKey(), searchInfo).then(function (response) {
+        $http.post('http://samueliox-trial-test.apigee.net/vglistapi/UserGameRating?apikey=' + userIdFactory.getAPIKey(), searchInfo).then(function (response) {
             $window.location.reload();
         });
     };
@@ -287,7 +288,7 @@ app.controller("detailedCompanyCtrl", function ($scope, $http, $location, userId
     $scope.getDetailedPage = function () {
         var loc = $location.search();
         var id = $location.search().id;
-        var endpoint = "https://samueliox-trial-prod.apigee.net/vglist/getGameInfo?gameId=" + id
+        var endpoint = "http://samueliox-trial-test.apigee.net/vglistapi/GameInfo?gameId=" + id
                 + "&apikey=" + userIdFactory.getAPIKey();
         $http.get(endpoint).then(function (response) {
             $scope.response = response.data;
@@ -298,7 +299,7 @@ app.controller("detailedCompanyCtrl", function ($scope, $http, $location, userId
 app.controller("searchCtrl", function ($scope, $http, userIdFactory) {
     var name = $scope.gamename;
     $scope.searchGame = function (name) {
-        var endpoint = "https://samueliox-trial-prod.apigee.net/vglist/searchGame?gamename=" + name
+        var endpoint = "http://samueliox-trial-test.apigee.net/vglistapi/searchGame?gamename=" + name
                 + "&apikey=" + userIdFactory.getAPIKey();
         $http.get(endpoint).then(function (response) {
             $scope.response = response.data;
@@ -308,7 +309,7 @@ app.controller("searchCtrl", function ($scope, $http, userIdFactory) {
 app.controller("detailedProfileCtrl", function ($scope, $window, $http, userIdFactory) {
     $scope.getDetailedProfile = function () {
         if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
-            $http.post('https://samueliox-trial-prod.apigee.net/vglist/verifyToken?apikey=' + userIdFactory.getAPIKey(), $window.sessionStorage).then(function (response) {
+            $http.post('http://samueliox-trial-test.apigee.net/vglistapi/verifyToken?apikey=' + userIdFactory.getAPIKey(), $window.sessionStorage).then(function (response) {
                 userIdFactory.setSignedInStatus(true);
                 $scope.signedIn = userIdFactory.getSignedInStatus();
                 $scope.userId = response.data.userid;
@@ -322,11 +323,11 @@ app.controller("detailedProfileCtrl", function ($scope, $window, $http, userIdFa
 
     };
     var getDetails = function (userId) {
-        var endpoint = "https://samueliox-trial-prod.apigee.net/vglist/getUserDetails?userId=" + userId
+        var endpoint = "http://samueliox-trial-test.apigee.net/vglistapi/getUserDetails?userId=" + userId
                 + "&apikey=" + userIdFactory.getAPIKey();
         $http.get(endpoint).then(function (response) {
             $scope.response = response.data;
-            var userList = "https://samueliox-trial-prod.apigee.net/vglist/getUserGameList?userId=" + userId
+            var userList = "http://samueliox-trial-test.apigee.net/vglistapi/getUserGameList?userId=" + userId
                     + "&apikey=" + userIdFactory.getAPIKey();
             $http.get(userList).then(function (response) {
                 $scope.userList = response.data;
@@ -344,7 +345,7 @@ app.controller("detailedProfileCtrl", function ($scope, $window, $http, userIdFa
 
 app.controller('gameListCtrl', function ($scope, $http, userIdFactory) {
     $scope.getGameList = function () {
-        $http.get('https://samueliox-trial-prod.apigee.net/vglist/getGameList?apikey=' + userIdFactory.getAPIKey()).then(function (response) {
+        $http.get('http://localhost:8080/api/GameList').then(function (response) {
             $scope.gameList = response.data;
         });
     };
@@ -352,7 +353,7 @@ app.controller('gameListCtrl', function ($scope, $http, userIdFactory) {
 
 app.controller('systemListCtrl', function ($scope, $http, userIdFactory) {
     $scope.getSystemList = function () {
-        $http.get('https://samueliox-trial-prod.apigee.net/vglist/getSystemList?apikey=' + userIdFactory.getAPIKey()).then(function (response) {
+        $http.get('http://samueliox-trial-test.apigee.net/vglistapi/getSystemList?apikey=' + userIdFactory.getAPIKey()).then(function (response) {
             $scope.systemList = response.data;
         });
     };
