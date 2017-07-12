@@ -3,7 +3,7 @@
         <h1>Game List</h1>
         <div id='body_text'>
             <div ng-repeat="r in gameList">
-                <a ng-href="detailedPage.html?id={{r.id}}" target="_self">{{r.name}}</a>
+                <a ng-href="game?gameId={{r.id}}" target="_self">{{r.name}}</a>
             </div> 
         </div>
     </div>

@@ -1,6 +1,6 @@
 <div ng-controller="loginCtrl" ng-model="signedIn" ng-model="userId" ng-model="username" ng-init="checkToken()">
     <a id="banner-link" ng-href="/" target="_self">
-        <img src="./images/logo.png" alt="Logo" >
+        <img src="../images/logo.png" alt="Logo" >
     </a>
     <div ng-show="!signedIn" id="header-login-menu">
         <button type="button" class="btn btn" ng-click="goToLogin()">login</button>
@@ -13,9 +13,9 @@
                 {{username}} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><a href="/profile.html" target="_self">Profile</a></li>
+                <li role="menuitem"><a href="../profile" target="_self">Profile</a></li>
                 <li class="divider"></li>
-                <li role="menuitem"><a href="/userGameList.html" target="_self">My List</a></li>
+                <li role="menuitem"><a href="../userGameList.html" target="_self">My List</a></li>
             </ul>
         </div>
         <button type="button" class="btn btn-success" ng-click="logout()">logout</button>
