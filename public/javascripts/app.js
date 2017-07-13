@@ -69,12 +69,13 @@ app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
     $scope.login = function () {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
+            $scope.ENDPOINT = response.data.endpoint;
             var user = {
                 username: $scope.username,
                 password: $scope.password
             };
             $scope.user = user;
-            $http.post('http://samueliox-trial-test.apigee.net/vglist-apicf/api/Auth?apikey=' + $scope.APIKEY,
+            $http.post($scope.ENDPOINT + '/api/Auth?apikey=' + $scope.APIKEY,
                     $scope.user).then(function (response) {
                 //check if the token is real 
                 if (response.data.success == false) {
@@ -98,8 +99,9 @@ app.controller('loginCtrl', function ($scope, $window, $http, userIdFactory) {
     $scope.checkToken = function () {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
+            $scope.ENDPOINT = response.data.endpoint;
             if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
-                $http.post('http://samueliox-trial-test.apigee.net/vglist-apicf/api/Token?apikey=' + $scope.APIKEY, $window.sessionStorage).then(function (response) {
+                $http.post($scope.ENDPOINT + '/api/Token?apikey=' + $scope.APIKEY, $window.sessionStorage).then(function (response) {
                     $scope.username = response.data.username;
                     userIdFactory.setSignedInStatus(true);
                     $scope.signedIn = userIdFactory.getSignedInStatus();
@@ -148,7 +150,8 @@ app.controller('autoCompleteCtrl', function ($scope, $http, $window, $log, userI
     function querySearch(query, $scope) {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
-            var endpoint = "http://samueliox-trial-test.apigee.net/vglist-apicf/api/Search?gamename=" + query +
+            $scope.ENDPOINT = response.data.endpoint;
+            var endpoint = $scope.ENDPOINT + "/api/Search?gamename=" + query +
                     "&apikey=" + $scope.APIKEY;
             return $http.get(endpoint).then(function (response) {
                 return response.data;
@@ -183,8 +186,9 @@ app.controller('registerAcctCtrl', function ($scope, $window, $http, userIdFacto
     $scope.checkDuplicateEmail = function () {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
+            $scope.ENDPOINT = response.data.endpoint;
             var email = $scope.email;
-            var endpoint = "http://samueliox-trial-test.apigee.net/vglist-apicf/api/EmailAvailability?email=" + email +
+            var endpoint = $scope.ENDPOINT + "/api/EmailAvailability?email=" + email +
                     "&apikey=" + $scope.APIKEY;
             $http.get(endpoint).then(function (response) {
                 $scope.emailAvail = response.data.available;
@@ -194,8 +198,9 @@ app.controller('registerAcctCtrl', function ($scope, $window, $http, userIdFacto
     $scope.checkDuplicateUsername = function () {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
+            $scope.ENDPOINT = response.data.endpoint;
             var username = $scope.username;
-            var endpoint = "http://samueliox-trial-test.apigee.net/vglist-apicf/api/UserAvailability?username=" + username
+            var endpoint = $scope.ENDPOINT + "/api/UserAvailability?username=" + username
                     + "&apikey=" + $scope.APIKEY;
             $http.get(endpoint).then(function (response) {
                 $scope.usernameAvail = response.data.available;
@@ -205,13 +210,14 @@ app.controller('registerAcctCtrl', function ($scope, $window, $http, userIdFacto
     $scope.registerAcct = function () {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
+            $scope.ENDPOINT = response.data.endpoint;
             var user = {
                 username: $scope.username,
                 password: $scope.password,
                 email: $scope.email
             };
             $scope.user = user;
-            $http.post('http://samueliox-trial-test.apigee.net/vglist-apicf/api/Register?apikey=' + $scope.APIKEY, $scope.user).then(function (data, status, headers, config) {
+            $http.post($scope.ENDPOINT + '/api/Register?apikey=' + $scope.APIKEY, $scope.user).then(function (data, status, headers, config) {
                 $scope.message = 'Welcome';
                 $window.location.href = '/';
             });
@@ -224,10 +230,11 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
     $scope.getDetailedPage = function () {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
+            $scope.ENDPOINT = response.data.endpoint;
             var id = $location.search().gameId;
             userIdFactory.setGameId(id);
             if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
-                $http.post('http://samueliox-trial-test.apigee.net/vglist-apicf/api/Token?apikey=' + $scope.APIKEY, $window.sessionStorage).then(function (response) {
+                $http.post($scope.ENDPOINT + '/api/Token?apikey=' + $scope.APIKEY, $window.sessionStorage).then(function (response) {
                     $scope.username = response.data.username;
                     userIdFactory.setUserId(response.data.userid);
                     $scope.userId = userIdFactory.getUserId();
@@ -236,15 +243,15 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
                         gameId: id
                     };
                     //getting game info
-                    var endpoint = "http://samueliox-trial-test.apigee.net/vglist-apicf/api/Games/" + id
+                    var endpoint = $scope.ENDPOINT + "/api/Games/" + id
                             + "?apikey=" + $scope.APIKEY;
                     $http.get(endpoint).then(function (response) {
                         $scope.response = response.data;
                         //getting user info on game
-                        $http.get('http://samueliox-trial-test.apigee.net/vglist-apicf/api/UserGameStatuses/user/' + userIdFactory.getUserId() + '/game/' +
+                        $http.get($scope.ENDPOINT + '/api/UserGameStatuses/user/' + userIdFactory.getUserId() + '/game/' +
                                 id + '?apikey=' + $scope.APIKEY).then(function (response) {
                             $scope.status = response.data.success == false ? {type: "you have not rated"} : response.data;
-                            $http.get('http://samueliox-trial-test.apigee.net/vglist-apicf/api/UserGameReviews/user/' + userIdFactory.getUserId() + '/game/' +
+                            $http.get($scope.ENDPOINT + '/api/UserGameReviews/user/' + userIdFactory.getUserId() + '/game/' +
                                     id + '?apikey=' + $scope.APIKEY).then(function (response) {
                                 $scope.signedIn = userIdFactory.getSignedInStatus();
                                 $scope.rating = response.data.success == false ? {review_score: "you have not rated"} : response.data;
@@ -254,7 +261,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
                     });
                 });
             } else {
-                var endpoint = "http://samueliox-trial-test.apigee.net/vglist-apicf/api/Games/" + id
+                var endpoint = $scope.ENDPOINT + "/api/Games/" + id
                         + "?apikey=" + $scope.APIKEY;
                 $http.get(endpoint).then(function (response) {
 
@@ -275,6 +282,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
     $scope.submitStatus = function (gameId) {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
+            $scope.ENDPOINT = response.data.endpoint;
             var userId = userIdFactory.getUserId();
             var statusId = $scope.selectedStatus;
             var gameIdEnd = gameId == undefined ? userIdFactory.getGameId() : gameId;
@@ -283,7 +291,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
                 gameId: gameIdEnd,
                 userId: userId
             };
-            $http.post('http://samueliox-trial-test.apigee.net/vglist-apicf/api/UserGameStatuses?apikey=' + $scope.APIKEY, searchInfo).then(function (response) {
+            $http.post($scope.ENDPOINT + '/api/UserGameStatuses?apikey=' + $scope.APIKEY, searchInfo).then(function (response) {
                 $window.location.reload();
             });
         });
@@ -291,6 +299,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
     $scope.submitRating = function (gameId) {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
+            $scope.ENDPOINT = response.data.endpoint;
             var userId = userIdFactory.getUserId();
             var scoreId = $scope.selectedScore + 1;
             var gameIdEnd = gameId == undefined ? userIdFactory.getGameId() : gameId;
@@ -299,7 +308,7 @@ app.controller("detailedGameCtrl", function ($window, $scope, $http, $location, 
                 userId: userId,
                 scoreId: scoreId
             };
-            $http.post('http://samueliox-trial-test.apigee.net/vglist-apicf/api/UserGameReviews?apikey=' + $scope.APIKEY, searchInfo).then(function (response) {
+            $http.post($scope.ENDPOINT + '/api/UserGameReviews?apikey=' + $scope.APIKEY, searchInfo).then(function (response) {
                 $window.location.reload();
             });
         });
@@ -309,9 +318,9 @@ app.controller("detailedCompanyCtrl", function ($scope, $http, $location, userId
     $scope.getDetailedPage = function () {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
-            var loc = $location.search();
+            $scope.ENDPOINT = response.data.endpoint;
             var id = $location.search().id;
-            var endpoint = "http://samueliox-trial-test.apigee.net/vglist-apicf/api/Games/" + id
+            var endpoint = $scope.ENDPOINT + "/api/Games/" + id
                     + "&apikey=" + $scope.APIKEY;
             $http.get(endpoint).then(function (response) {
                 $scope.response = response.data;
@@ -325,7 +334,8 @@ app.controller("searchCtrl", function ($scope, $http, userIdFactory) {
     $scope.searchGame = function (name) {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
-            var endpoint = "http://samueliox-trial-test.apigee.net/vglist-apicf/api/Search/" + name
+            $scope.ENDPOINT = response.data.endpoint;
+            var endpoint = $scope.ENDPOINT + "/api/Search/" + name
                     + "?apikey=" + $scope.APIKEY;
             $http.get(endpoint).then(function (response) {
                 $scope.response = response.data;
@@ -337,8 +347,9 @@ app.controller("detailedProfileCtrl", function ($scope, $window, $http, userIdFa
     $scope.getDetailedProfile = function () {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
+            $scope.ENDPOINT = response.data.endpoint;
             if ($window.sessionStorage.length > 0 && $window.sessionStorage.token !== "null") {
-                $http.post('http://samueliox-trial-test.apigee.net/vglist-apicf/api/Token?apikey=' + $scope.APIKEY, $window.sessionStorage).then(function (response) {
+                $http.post($scope.ENDPOINT + '/api/Token?apikey=' + $scope.APIKEY, $window.sessionStorage).then(function (response) {
                     userIdFactory.setSignedInStatus(true);
                     $scope.signedIn = userIdFactory.getSignedInStatus();
                     $scope.userId = response.data.userid;
@@ -353,11 +364,12 @@ app.controller("detailedProfileCtrl", function ($scope, $window, $http, userIdFa
     var getDetails = function (userId) {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
-            var endpoint = "http://samueliox-trial-test.apigee.net/vglist-apicf/api/Users/" + userId
+            $scope.ENDPOINT = response.data.endpoint;
+            var endpoint = $scope.ENDPOINT + "/api/Users/" + userId
                     + "?apikey=" + $scope.APIKEY;
             $http.get(endpoint).then(function (response) {
                 $scope.response = response.data;
-                var userList = "http://samueliox-trial-test.apigee.net/vglist-apicf/api/UserGameList/" + userId
+                var userList = $scope.ENDPOINT + "/api/UserGameList/" + userId
                         + "?apikey=" + $scope.APIKEY;
                 $http.get(userList).then(function (response) {
                     $scope.userList = response.data;
@@ -377,7 +389,8 @@ app.controller('gameListCtrl', function ($scope, $http, userIdFactory) {
     $scope.getGameList = function () {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
-            $http.get('http://samueliox-trial-test.apigee.net/vglist-apicf/api/Games?apikey=' + $scope.APIKEY).then(function (response) {
+            $scope.ENDPOINT = response.data.endpoint;
+            $http.get($scope.ENDPOINT + '/api/Games?apikey=' + $scope.APIKEY).then(function (response) {
                 $scope.gameList = response.data;
             });
         });
@@ -388,7 +401,8 @@ app.controller('systemListCtrl', function ($scope, $http, userIdFactory) {
     $scope.getSystemList = function () {
         $http.get('/apigeekey').then(function (response) {
             $scope.APIKEY = response.data.key;
-            $http.get('http://samueliox-trial-test.apigee.net/vglist-apicf/api/Systems?apikey=' + $scope.APIKEY).then(function (response) {
+            $scope.ENDPOINT = response.data.endpoint;
+            $http.get($scope.ENDPOINT + '/api/Systems?apikey=' + $scope.APIKEY).then(function (response) {
                 $scope.systemList = response.data;
             });
         });
