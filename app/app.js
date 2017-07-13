@@ -28,7 +28,10 @@ app.use('/usergamelist', express.static('./public/userGameList.html'));
 app.use('/systemlist', express.static('./public/systemlist.html'));
 
 app.get('/apigeekey', function (req, res) {
-    res.json({key: process.env.APIGEE_KEY});
+    res.json({
+        key: process.env.APIGEE_KEY,
+        endpoint: process.env.APIGEE_ENDPOINT
+    });
 });
 
 console.log('Node is installed');
