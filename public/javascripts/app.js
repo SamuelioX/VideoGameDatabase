@@ -1,5 +1,4 @@
 var app = angular.module("app", ['ngAnimate', 'ngMaterial', 'ngSanitize', 'ngRoute', 'ui.bootstrap']);
-///https://samueliox-trial-prod.apigee.net/vglist
 app.config(['$locationProvider', function ($locationProvider) {
         $locationProvider.html5Mode({
             enabled: true,
@@ -28,7 +27,7 @@ app.config(['$locationProvider', function ($locationProvider) {
 
 //factory that allows items to be reused
 //mostly designed for SPA, not amazingly effective otherwise
-app.factory('userIdFactory', function ($http) {
+app.factory('userIdFactory', function () {
     var userId = null;
     var gameId = null;
     var signedIn = false;
