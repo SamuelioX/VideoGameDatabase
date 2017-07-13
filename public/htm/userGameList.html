@@ -17,7 +17,7 @@
         </th>
 
         <tr ng-controller="detailedGameCtrl" ng-repeat="s in userList| orderBy:propertyName:reverse">
-            <td><a ng-href="detailedPage.html?id={{s.game_id}}" target="_self">{{s.name}}</a></td>
+            <td><a ng-href="games?gameId={{s.game_id}}" target="_self">{{s.name}}</a></td>
             <td>{{s.review_score}}<select ng-model="selectedScore" ng-options="score_options.indexOf(selectedScore) as selectedScore 
                 for selectedScore in score_options"></select><button type="button"  ng-click="submitRating(s.game_id)">Submit</button></td>
             <td>{{s.type}}<select ng-model="selectedStatus" ng-options="status_options.indexOf(selectedStatus) + 1 as selectedStatus

@@ -2,6 +2,6 @@
     <input ng-model="gamename" ng-keyup="searchGame(gamename)">
     <br>
     <div ng-repeat="r in response">
-        <a ng-href="detailedPage.html?id={{r.id}}" target="_self">{{r.name}}</a>
+        <a ng-href="games?gameId={{r.id}}" target="_self">{{r.name}}</a>
     </div> 
 </div>

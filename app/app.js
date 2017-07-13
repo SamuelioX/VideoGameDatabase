@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var app = express();
-var router = express.Router();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -22,11 +21,15 @@ app.use('/profile', express.static('./public/profile.html'));
 app.use('/gamelist', express.static('./public/gamelist.html'));
 app.use('/login', express.static('./public/login.html'));
 app.use('/register', express.static('./public/register.html'));
-app.use('/game', express.static('./public/detailedPage.html'));
+app.use('/games', express.static('./public/detailedPage.html'));
 app.use('/images', express.static('./public/images'));
 app.use('/css', express.static('./public/css'));
 app.use('/usergamelist', express.static('./public/userGameList.html'));
 app.use('/systemlist', express.static('./public/systemlist.html'));
+
+app.get('/apigeekey', function (req, res) {
+    res.json({key: process.env.APIGEE_KEY});
+});
 
 console.log('Node is installed');
 // catch 404 and forward to error handler
